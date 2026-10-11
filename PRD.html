@@ -1,0 +1,1032 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>评里找 · 产品需求文档</title><style>*{box-sizing:border-box}body{margin:0;background:#f7f7f7;color:#222;font-family:-apple-system,BlinkMacSystemFont,Microsoft YaHei,sans-serif;line-height:1.85;font-size:15px}header{position:sticky;top:0;background:#fffffff5;border-bottom:1px solid #eee;padding:12px max(20px,calc((100vw - 980px)/2));display:flex;gap:25px;z-index:2}header a{font-size:13px;color:#888}main{max-width:1020px;margin:22px auto;padding:35px 45px;background:#fff}h1{font-size:29px;margin-top:0}h2{font-size:22px;margin:45px 0 17px;padding-bottom:9px;border-bottom:1px solid #eee}h3{font-size:17px;margin:28px 0 12px}a{color:#ed2443;text-decoration:none}table{width:100%;border-collapse:collapse;font-size:13px;margin:20px 0;display:block;overflow-x:auto}th,td{padding:9px 12px;border:1px solid #ececec;text-align:left;vertical-align:top;min-width:100px}th{background:#fafafa}code{font-family:Consolas,monospace;background:#f6f6f6;font-size:13px;padding:2px 4px;border-radius:3px}pre{background:#f6f6f6;padding:16px;overflow:auto;border-radius:6px}pre code{padding:0}li{margin:6px 0}blockquote{border-left:3px solid #ff2442;padding-left:16px;color:#777;margin-left:0}hr{border:0;border-top:1px solid #eee}@media(max-width:600px){main{margin:0;padding:25px 20px}h1{font-size:25px}header{padding:10px 20px}}@media print{header{display:none}body{background:#fff}main{margin:0;padding:0;max-width:none}h2{break-after:avoid}tr,pre{break-inside:avoid}a{color:#222}}</style></head><body><aside style="max-width:920px;margin:24px auto;padding:16px 20px;background:#fff5f6;border:1px solid #ffdce2;border-radius:12px;font:14px/1.7 sans-serif;color:#555">交付版本说明：此文档保留初版设计或历史验收记录。多轮标注后的最终实现约束见 <a href="AI开发交接.md">AI开发交接.md</a>；当前检索测试为63项通过，文件与独立运行检查见交付核验说明.txt。</aside><header><strong>评里找 · 产品文档</strong><a href="app/index.html">打开交互原型</a><a href="PRD.md" download>下载 Markdown</a></header><main><h1>评里找产品需求文档</h1>
+<p>本文定义「评里找」的前端页面、评论检索规则、接口和验收条件，供设计、前端、后端、算法与测试共同使用。交付包括首页双列信息流和笔记详情页；核心能力是在当前笔记的评论中，用关键词或一句话诉求寻找相关讨论，再继续阅读和参与原来的交流。</p>
+<p>版本：1.0。日期：2026年10月11日。状态：可用于交互与前端原型开发，检索服务和实验参数待联调验证。所有展示人物、笔记、评论、地点、型号及图片场景均为虚构素材。</p>
+<h2>1 需求来源与决策状态</h2>
+<p>用户阅读笔记后，可能想了解正文没有充分说明的问题。大量评论里可能已经有人提问、给出经历或得到作者回复，但逐条翻阅成本较高，且用户的表达未必与评论一致。「评里找」提供局部检索入口，帮助用户找到原讨论中的信息。</p>
+<p>以下状态用于避免把尚未验证的产品假设当作既定事实。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>状态</th>
+<th>本版执行方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>首页双列信息流和笔记详情页</td>
+<td>已明确</td>
+<td>两页均实现；首页点击卡片进入详情</td>
+</tr>
+<tr>
+<td>红白黑主色和接近小红书的操作习惯</td>
+<td>已明确</td>
+<td>采用移动社区常见的信息流、图集、互动和评论布局；不使用真实品牌标识</td>
+</tr>
+<tr>
+<td>图片和文字真实自然但全部虚构</td>
+<td>已明确</td>
+<td>自制场景图与虚构数据；界面提供统一原型说明</td>
+</tr>
+<tr>
+<td>同一输入支持关键词和AI搜索</td>
+<td>已明确</td>
+<td>同一搜索框，下方使用「相关评论」「包含关键词」两个切换项</td>
+</tr>
+<tr>
+<td>搜索当前笔记的可见一级评论与回复</td>
+<td>已明确</td>
+<td>搜索覆盖尚未加载到页面的可见数据</td>
+</tr>
+<tr>
+<td>原评论和回复上下文可读可追溯</td>
+<td>已明确</td>
+<td>结果按讨论聚合，支持展开回复和定位原讨论</td>
+</tr>
+<tr>
+<td>评论数大于100时开放入口</td>
+<td>已讨论的试点假设</td>
+<td>首版按当前用户可见评论总数判断，101条开始出现入口</td>
+</tr>
+<tr>
+<td>默认采用相关评论模式</td>
+<td>本版建议</td>
+<td>降低自然语言输入的使用门槛，保留显式精确模式；需验证模式认知</td>
+</tr>
+<tr>
+<td>先验证知识学习及消费出行场景</td>
+<td>试点假设</td>
+<td>覆盖不同任务；不据此认定任何场景为全站高频</td>
+</tr>
+<tr>
+<td>全站时长不下降</td>
+<td>已明确的约束</td>
+<td>不以评论区时长增长替代全站结果；见第15节</td>
+</tr>
+</tbody></table>
+<p>本方案不以历史长文模板评论样本推断全站搜索需求规模，也不将外部检索工具的能力视为小红书当前功能现状。关键词和语义检索可以组合实现，概念参考<a href="https://www.elastic.co/docs/solutions/search/get-started/semantic-search">Elastic官方语义搜索说明</a>；本文中的具体规则是本产品的开发约定。</p>
+<h2>2 目标与范围</h2>
+<h3>2.1 用户目标</h3>
+<ol>
+<li>在评论较多的笔记中，更容易找到自己关心的讨论。</li>
+<li>用具体词或自然语言均能表达需求，知道结果为什么与自己有关。</li>
+<li>找到回复中的答案，同时看见问题和必要背景。</li>
+<li>未找到时，能判断是没有相关讨论、已有提问但没有回答，还是服务暂不可用。</li>
+<li>查找后能顺手展开回复、点赞、评论，或恢复原来的浏览位置。</li>
+</ol>
+<h3>2.2 本次交付目标</h3>
+<ul>
+<li>完成可点击、可在桌面和移动端体验的两页前端原型。</li>
+<li>用统一数据结构模拟精确搜索、语义搜索、上下文、分页与异常状态。</li>
+<li>提供可对接真实服务的接口边界和组件划分。</li>
+<li>为后续检索质量评估与小流量实验提供明确验收用例。</li>
+</ul>
+<h3>2.3 非目标</h3>
+<ul>
+<li>不搜索其他笔记的评论，不把正文段落作为评论结果返回。</li>
+<li>不生成替作者或用户发表的回答，不自动发出搜索问题。</li>
+<li>不在首版输出跨评论总结、真假判定或餐厅当前政策等结论。</li>
+<li>不实现全站搜索、推荐算法、支付、真实关注关系或真实私信服务。</li>
+<li>不把模糊查询支持变成任意条件都能精确回答；缺少证据时保留未知。</li>
+<li>不因上线搜索就预设全站时长一定增长。</li>
+</ul>
+<h2>3 用户场景与虚构内容</h2>
+<p>首页至少提供下列六类封面，每类均能打开完整详情。素材要呈现普通人记录生活的感觉，避免清一色广告海报或整齐的模板图。</p>
+<table>
+<thead>
+<tr>
+<th>虚构笔记</th>
+<th>场景</th>
+<th>关键词示例</th>
+<th>自然语言示例</th>
+<th>需要覆盖的结果状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高二数学｜从“看懂了”到“自己会做”的一小步</td>
+<td>知识学习</td>
+<td>函数、物理、几何</td>
+<td>基础不太好，应该先学哪部分</td>
+<td>经验与回答；只有提问</td>
+</tr>
+<tr>
+<td>在这家小店，把周末调成慢速</td>
+<td>生活与宠物</td>
+<td>宠物、露台、停车</td>
+<td>有人带狗去过吗</td>
+<td>命中不同表达；允许与不允许的不同经历</td>
+</tr>
+<tr>
+<td>160cm也能穿松弛一点，别急着塞衣角</td>
+<td>穿搭</td>
+<td>160、尺码、面料</td>
+<td>身高160cm应该怎么选码</td>
+<td>数字边界；适用条件</td>
+</tr>
+<tr>
+<td>松岚环线｜半天走进绿意，不必走到山顶</td>
+<td>出行</td>
+<td>台阶、休息、雨天</td>
+<td>带爸妈走会不会太累</td>
+<td>回复命中；缺少充分证据</td>
+</tr>
+<tr>
+<td>N7用满三周｜通勤够用，开会先别急着下结论</td>
+<td>数码体验</td>
+<td>N7、通话、续航</td>
+<td>坐地铁接电话，对方听得清楚吗</td>
+<td>型号约束；相反反馈</td>
+</tr>
+<tr>
+<td>给小房间留一张书桌，100cm也能好好坐下</td>
+<td>家居</td>
+<td>宽度、反光、安装</td>
+<td>90cm宽的书桌够用吗</td>
+<td>具体经验；零结果</td>
+</tr>
+</tbody></table>
+<p>首页内容分类统一为生活、穿搭、学习、出行、数码和家居。上述标题对应本版 <code>app/data.js</code> 中的虚构笔记，更新数据时同步更新文档。名称、作者、地点、设备型号和评论均为虚构。每篇笔记完整存储不少于105条模拟评论，评论总量由全部一级评论与回复实时计算，不使用固定的假总数。界面初始展示12条一级评论并逐步加载，但检索覆盖全部存储样本。结果计数只来自真正匹配的评论。原型统一标明虚构数据；上线版不显示模拟数据说明。</p>
+<h2>4 页面结构与视觉规格</h2>
+<h3>4.1 首页双列信息流</h3>
+<p>移动端结构从上到下为顶部导航、分类标签、双列卡片和底部导航。本版桌面在居中、最大宽约480px的页面内模拟移动布局，仍保持双列信息流。生产版桌面侧导航及更宽的信息流作为后续可选适配。</p>
+<p>首页为可直接打开的本地页面 <code>index.html</code>，详情为 <code>note.html</code>。顶部含「关注」「发现」「本地」，默认「发现」。本版只实现发现内容的完整交互，其余入口可展示简洁说明，不能点击后无反馈。首页搜索为笔记级搜索，视觉上与评论局部搜索区分；可在原型中按本地标题过滤，不调用评论检索。</p>
+<p>卡片包含封面、最多两行标题、头像、作者名、点赞数。封面采用不同高宽比，形成自然的双列错落布局。每列独立排布，滚动时不因图片加载跳动。卡片整块可进入详情，点赞按钮单独响应并阻止卡片跳转。</p>
+<p>底部包含首页、发布、消息和我等社区常见入口；仅对已实现部分提供真实路由，其余显示原型范围提示。选中态用黑色文字或红色细节表达，避免全屏大面积红色。</p>
+<h3>4.2 笔记详情页</h3>
+<p>移动端从上到下为返回、作者与关注、图集、标题、正文、标签和时间、评论区、固定底部互动栏。本版桌面同样使用居中约480px布局；左侧图集、右侧正文和评论的双区布局为生产版后续可选项，不计入本次原型完成情况。</p>
+<p>每篇示例笔记当前提供一张场景图，单图不显示页码或左右切换按钮。通用图集组件在有多张图片时支持触摸滑动、左右切换和页数指示，多图状态需单独手工验收。正文采用清晰短段落，有生活细节和具体条件，不用程序生成式宣传口吻。标签和发表时间显示在正文之后。详情页总评论数、图集数量、点赞与收藏数均来自对应笔记数据。</p>
+<p>评论区标题左侧显示「共N条评论」，右侧显示「搜评论」。默认评论包括头像、作者名、作者标记、文本、可选配图、时间、点赞和回复按钮。回复带缩进、收起和展开入口。搜索状态沿用这一套评论组件，避免切换到另一种陌生布局。</p>
+<p>固定互动栏包含「说点什么」、点赞、收藏及评论入口。输入评论时打开编辑区，显示回复目标；发布必须经过用户点击确认。原型中本地新增评论，界面清楚标明模拟保存。</p>
+<h3>4.3 设计参数</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>建议值与要求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主色</td>
+<td>红色 #FF2442；白色 #FFFFFF；正文 #222222</td>
+</tr>
+<tr>
+<td>辅助色</td>
+<td>次级文字 #777777；底色 #F7F7F7；分隔线 #EEEEEE</td>
+</tr>
+<tr>
+<td>字体</td>
+<td>系统中文字体，优先 PingFang SC、Microsoft YaHei，系统 sans-serif 回退</td>
+</tr>
+<tr>
+<td>字号</td>
+<td>正文14至16px；标题18至20px；辅助信息12至13px；不得使用过小灰字承载关键状态</td>
+</tr>
+<tr>
+<td>间距</td>
+<td>基于4px与8px节奏；移动页左右12至16px；卡片列间距8至12px</td>
+</tr>
+<tr>
+<td>圆角</td>
+<td>信息流图片与卡片8至12px；搜索栏圆角胶囊形；不把所有组件做成浮起的大卡片</td>
+</tr>
+<tr>
+<td>动效</td>
+<td>交互反馈约120至200ms；页面与抽屉约200至280ms；支持系统减少动效设置</td>
+</tr>
+<tr>
+<td>图片</td>
+<td>首屏预加载必要尺寸，设置固定占位比例；页面内所有图片有合适的替代文本</td>
+</tr>
+</tbody></table>
+<p>这些参数用于接近现有社区的视觉与操作习惯，不代表对线上版像素或功能的复刻。原型不使用真实品牌Logo，也不引入真实笔记、评论或人物照片。</p>
+<h2>5 评论搜索入口与输入规则</h2>
+<h3>5.1 入口门槛</h3>
+<p><code>searchEligible = visibleCommentCount &gt; 100</code>。<code>visibleCommentCount</code>包含当前用户有权限查看的一级评论和回复，排除删除、屏蔽、审核不可见等内容。入口数量判断与搜索权限采用同一口径。</p>
+<p>当数值变动导致入口消失时，已打开的搜索不强制中断；下一次重新进入详情时更新入口。原型演示固定门槛，但后端需把资格作为独立字段返回，方便调整试点策略。</p>
+<h3>5.2 搜索栏</h3>
+<p>点击「搜评论」在标题下展开搜索栏并聚焦。占位文案为「输入关键词，或说说你想了解什么」。搜索栏下方有「相关评论」「包含关键词」模式项，当前模式可见。「相关评论」使用AI理解诉求；「包含关键词」采用确定性文字匹配，操作说明中应明确区别。</p>
+<p>同一查询在切换模式时保留文本。已有非空查询切换模式后立即提交新查询；第一次打开或输入过程中不自动提交。输入回车、键盘搜索键或点击按钮均可提交。中文输入法组词期间不触发搜索。</p>
+<p>查询去除首尾空白后必须为1至120个Unicode字符。空输入只显示可用示例，不显示“0条”。超过上限不请求服务，提示缩短问题。示例是当前笔记适合查找的问题，不宣称已存在对应答案；点击示例即填入并提交。</p>
+<p>清空输入取消当前请求，回到搜索空闲态；退出搜索恢复完整评论列表及进入搜索前的位置。再次打开时可以保留本篇笔记最近一次查询和模式，但不同笔记互不继承。</p>
+<h3>5.3 关键词与AI的区分</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>用户承诺</th>
+<th>排序</th>
+<th>结果提示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>包含关键词</td>
+<td>找到严格符合文本匹配规则的评论；不做同义扩展</td>
+<td>沿用默认评论列表中讨论的相对顺序，组内按原时间顺序</td>
+<td>找到 N 组讨论，M 条评论包含关键词</td>
+</tr>
+<tr>
+<td>相关评论</td>
+<td>根据表达与意图找到相关评论；结果不等于平台已验证结论</td>
+<td>讨论相关性优先；体验或有效答复可优于单纯提问；保留不同立场</td>
+<td>找到 N 组相关讨论，M 条命中评论</td>
+</tr>
+</tbody></table>
+<p>模式名称及短说明可点击查看。精确模式没有结果时，不自动偷偷扩大到语义结果；用户可以主动切换「相关评论」。</p>
+<h2>6 关键词匹配规则</h2>
+<p>本节为确定性规则，前后端与测试必须一致。</p>
+<h3>6.1 文本规范化</h3>
+<p>查询和检索文本采用Unicode NFKC规范化，全角英文和数字转换为对应半角；拉丁字母统一小写；去除不具显示意义的零宽字符；连续空白统一为一个空格。标准化仅用于检索，界面展示仍保留原评论文本。</p>
+<p>不做繁简转换、不自动纠错、不删除普通标点、不合并型号中的空格或连字符、不生成近义词。可以将形态相近的Unicode连字符统一成ASCII连字符，但这一行为必须同时用于查询和评论，并单独测试。</p>
+<h3>6.2 单词与多词</h3>
+<ul>
+<li>连续中文默认按连续子串匹配。例如「停车」匹配「停车位」，不匹配只写「车位」的评论。</li>
+<li>用户用空格分隔多个项时，默认采用AND。一条评论必须包含所有项才命中；不能用父评论中的词和回复中的词拼出一次命中。</li>
+<li>双引号内的内容作为连续短语，例如 <code>&quot;数学 基础&quot;</code> 仅匹配标准化后连续的「数学 基础」。未闭合引号提示补全，不发起请求。</li>
+<li>不开放用户正则表达式。特殊符号按文字处理，不作为执行命令或HTML。</li>
+</ul>
+<h3>6.3 数字和型号</h3>
+<ul>
+<li>纯数字项必须匹配完整数字表达。查询 <code>160</code> 可以匹配「身高160cm」，不匹配 <code>1600</code>、<code>2160</code>、<code>160.5</code> 或 <code>160.0</code>。</li>
+<li>小数、负数、年份按标准化后的完整表达匹配，不做数学等值或范围推断。查询 <code>180</code> 不自动匹配 <code>175至185</code>。</li>
+<li>英文字母、数字和连字符组成的项按完整型号或英文词边界匹配。已知型号采用词典中的最长实体识别。例如词典同时含 <code>N7</code> 与 <code>N7 Pro</code>，查询 <code>N7</code> 不匹配 <code>N70</code>、<code>N7Pro</code> 或仅提及 <code>N7 Pro</code> 的评论；可以匹配「拾音N7耳机」。</li>
+<li>如果同一评论写「N7 Pro我没用过，N7用了六周」，查询 <code>N7</code> 可以命中第二处独立型号提及；第一处不能作为N7的证据或高亮。最长实体优先只约束已识别的型号片段，不排除整条含其他有效命中的评论。</li>
+<li>未收录型号按完整英文数字边界处理，不猜测别名；上线型号词典需版本化。查询 <code>N-7</code> 与 <code>N7</code> 不视为相同型号；AI也必须有明确别名依据才可合并。</li>
+<li>多词中的数字仍按完整数字匹配。例如 <code>160 裤长</code> 必须在同一评论里同时命中完整160和连续「裤长」。</li>
+</ul>
+<h3>6.4 检索字段与高亮</h3>
+<p>首版检索评论正文，包括一级评论和回复；不检索昵称、时间、点赞数和头像文字。评论图片中的文字和语音转写列为P1，首版不得把它们算入命中。</p>
+<p>高亮由服务端返回原文本的范围，前端按纯文本片段渲染，不接收可执行HTML。范围统一使用UTF-16偏移，必须覆盖原文对应位置，并测试emoji、全角字符及多段命中。规范化前后的位置映射由检索服务处理。</p>
+<h2>7 AI意图检索规则</h2>
+<h3>7.1 检索职责</h3>
+<p>AI将用户诉求理解成关注主题、意图和明确条件，检索当前笔记评论并排序。笔记标题与正文可以帮助理解指代，但只能作为语境，不能作为评论证据返回。每一条结果必须指向真实存在且当前可见的评论ID。</p>
+<p>允许同义表达与相关经历，例如「带狗」可以找到「毛孩子」「宠物」，「爸妈走会不会累」可以找到台阶、步行距离、休息点的相关经验。精确词项可同时参与召回，提高实体与数字的可靠性。</p>
+<h3>7.2 明确条件</h3>
+<p>型号、年份、数字阈值、用户明确要求的人群与否定条件需作为检索约束保存。条件的类型和验证情况由服务端返回：<code>satisfied</code>、<code>contradicted</code>或<code>unknown</code>。</p>
+<p>若用户明确要求「只看N7的反馈」，不得把N70或N7 Pro的反馈作为满足条件的结果。若用户问「预算不超过500有没有经验」，没有价格依据的评论不能标为符合预算。可在P1提供用户主动扩展范围的操作，首版不自动放宽硬条件。</p>
+<p>「能不能带狗」是一个关于许可的询问，允许和禁止的经历都可能是相关信息，不能把问题误解成“只搜索允许带狗”。「有没有不需要烤箱的做法」则有明确排除条件，使用烤箱的做法不能作为符合需求的答案。</p>
+<p>条件证据缺失时，降低排序或展示“条件未明确”，不得由AI补造。用户的条件与某条评论直接矛盾时，该评论不作为满足条件的体验；若它对解释限制有用，可保留在限制类结果中，清楚标记。</p>
+<h3>7.3 提问 体验与答复</h3>
+<p>每条命中评论可以有一个或多个角色：<code>question</code>、<code>experience</code>、<code>answer</code>、<code>limitation</code>、<code>other</code>。角色仅辅助排序和状态判断，界面使用自然文案，例如“相关提问”“体验反馈”。不把普通提问显示为答案。</p>
+<p>至少存在一条能对关注点提供实质信息的体验或答复，才进入 <code>answer_found</code>。只有相关问题而没有充分回答时进入 <code>questions_only</code>，显示“找到相关提问，暂未发现明确回答”，计数照常显示。</p>
+<p>表述模糊、开玩笑、否定转折与引用需结合上下文判断。例如“我没带狗，不知道能不能进”与宠物相关，但不是可带宠物的经验。作者标记代表身份，不自动代表结论正确。</p>
+<h3>7.4 不同经历与时间</h3>
+<p>相反经历可以并存。结果保留评论发表时间、作者身份和具体条件，避免只展示单一结论。可用“存在不同体验”提示，但不自动把不同时间的评论判为冲突。</p>
+<p>用户询问「最近」时，应优先考虑时间明确且较新的评论，并展示具体日期；原型将「最近」定义为过去90天的建议窗口，正式服务需配置。如果窗口内没有证据，应返回“暂未找到最近90天的相关反馈”，允许用户主动查看更早反馈。</p>
+<p>缺少时间、地点政策变化或使用条件不同，不能被模型当作确定的当前答案。首版不生成“这家现在可以带狗”之类汇总结论。</p>
+<h3>7.5 不明确诉求与低置信度</h3>
+<p>「这家怎么样」同时可能指口味、价格、服务和环境。系统在多个意图相近且没有可靠排序时返回 <code>needs_clarification</code>，展示最多4个关注点。用户点击后补充原查询并重新搜索。</p>
+<p>清晰问题不强制澄清。没有合适候选或澄清项时进入空结果，提示换一种描述。分数阈值按标注集校准，不在PRD中预设未经验证的0.7或0.8准确率阈值；前端只消费离散状态。</p>
+<h2>8 回复上下文与结果计数</h2>
+<h3>8.1 结果聚合</h3>
+<p>结果以一级评论的 <code>rootId</code> 为讨论单位。同一讨论里命中多个评论时只生成一张讨论卡片，卡片内显示命中的正文及必要上下文。不得把同一条回复作为多个独立结果重复呈现。</p>
+<table>
+<thead>
+<tr>
+<th>计数</th>
+<th>定义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>discussionCount</code></td>
+<td>至少有一条命中评论的唯一rootId数量</td>
+<td>同一根评论与两条回复命中，计1组</td>
+</tr>
+<tr>
+<td><code>matchCount</code></td>
+<td>唯一命中commentId数量，含一级评论与回复</td>
+<td>根评论与两条回复均命中，计3条</td>
+</tr>
+<tr>
+<td><code>visibleCommentCount</code></td>
+<td>当前用户可见的整篇评论数量</td>
+<td>与搜索结果数分开显示</td>
+</tr>
+</tbody></table>
+<p>前端同时展示组数与命中条数，避免把“3组讨论”误解为“只有3条评论”。首版禁止把仅为语境带出的父评论或其他回复计入 <code>matchCount</code>。</p>
+<h3>8.2 展示规则</h3>
+<ul>
+<li>命中一级评论：展示完整根评论，保留回复数量和展开入口；相关命中回复默认优先展示。</li>
+<li>命中直接回复：展示根评论与该回复。如果根评论很长可折叠，但必须有“展开完整问题”。</li>
+<li>命中嵌套回复：展示根评论、被回复对象和命中回复。引用关系较长时先呈现必要链路，提供“查看整段讨论”。</li>
+<li>同组多个回复命中：合并到同组，按原时间顺序排列，可标注“本组3条命中”。</li>
+<li>原上下文已删除或不可见：不泄露文字；显示“原评论不可见”。仅当回复独立可理解时保留，否则不作为可回答的结果。</li>
+<li>评论折叠时最多展示约3行，完整文本可展开；不能截断关键词或关键否定句后仍作肯定解释。</li>
+</ul>
+<h3>8.3 定位与返回</h3>
+<p>点击“查看原讨论”恢复未过滤评论区，按评论ID加载对应讨论并短暂高亮。不能只定位到页面大致高度。顶部提供“返回搜索结果”，保留查询、模式、结果分页与滚动位置。</p>
+<p>点击“查看全部评论”则退出搜索，回到开始搜索前的位置；它与“查看原讨论”的目的和返回方式不同。退出搜索后仍可以正常展开、回复和点赞。</p>
+<h3>8.4 分页与动态更新</h3>
+<p>每页返回最多15组讨论，使用稳定游标与 <code>snapshotId</code>。计数是整个可见范围的精确值，不是当前页条数。AI仍在检索时显示加载状态，不先显示0。</p>
+<p>同一次查询的分页使用相同快照。新增评论不静默打乱已读结果，可显示“有新评论，重新搜索”。删除与权限变化须立即在后续响应中排除，相应计数更新；前端移除失效内容并保持阅读位置。</p>
+<h2>9 交互状态机</h2>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>界面</th>
+<th>允许动作</th>
+<th>转移规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>closed</code></td>
+<td>完整评论区与入口</td>
+<td>打开搜索</td>
+<td>保存原滚动位置，进入idle</td>
+</tr>
+<tr>
+<td><code>idle</code></td>
+<td>输入框、模式、示例</td>
+<td>输入、选示例、退出</td>
+<td>有效提交进入loading</td>
+</tr>
+<tr>
+<td><code>loading</code></td>
+<td>搜索栏保留查询，结果区骨架</td>
+<td>改词、切模式、退出</td>
+<td>请求结束进入结果、澄清、空或错误；旧请求取消</td>
+</tr>
+<tr>
+<td><code>answer_found</code></td>
+<td>有相关经历或答复的讨论</td>
+<td>展开、点赞、回复、分页、原讨论</td>
+<td>新提交重新加载</td>
+</tr>
+<tr>
+<td><code>questions_only</code></td>
+<td>相关提问及“尚未明确回答”提示</td>
+<td>查看问题、补充经历、发问</td>
+<td>新提交重新加载</td>
+</tr>
+<tr>
+<td><code>needs_clarification</code></td>
+<td>关注点选项，不展示虚构结果数</td>
+<td>选关注点、改词、退出</td>
+<td>选择后重新提交</td>
+</tr>
+<tr>
+<td><code>empty</code></td>
+<td>0组0条及无结果文案</td>
+<td>改词、切模式、查看全部、编辑问题</td>
+<td>不自动发出问题</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>暂时无法搜索；不显示0条</td>
+<td>重试、查看全部、切到可用的包含关键词模式</td>
+<td>重试新请求</td>
+</tr>
+<tr>
+<td><code>original_thread</code></td>
+<td>完整评论中的定位讨论</td>
+<td>返回结果、继续阅读、退出搜索</td>
+<td>返回恢复结果位置</td>
+</tr>
+<tr>
+<td><code>loading_more</code></td>
+<td>当前结果保留，底部加载</td>
+<td>阅读已返回内容、退出</td>
+<td>追加去重结果；失败只影响下一页</td>
+</tr>
+</tbody></table>
+<p>每次提交生成 <code>requestId</code>。查询、模式、笔记发生变化时取消旧请求或忽略旧返回。快速提交A后提交B，A的结果不得覆盖B。关闭搜索后不再因请求完成弹出结果。</p>
+<h2>10 无结果与异常处理</h2>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>文案</th>
+<th>操作</th>
+<th>禁止行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>关键词无命中</td>
+<td>没有找到包含这些关键词的评论</td>
+<td>修改关键词、切换相关评论、查看全部</td>
+<td>自动扩展后仍称精确命中</td>
+</tr>
+<tr>
+<td>AI无相关内容</td>
+<td>暂未找到与这个问题相关的评论</td>
+<td>换个说法、编辑并发出问题、查看全部</td>
+<td>凭空生成一个回答</td>
+</tr>
+<tr>
+<td>有提问无答复</td>
+<td>找到相关提问，暂未发现明确回答</td>
+<td>查看提问、补充自己的经验</td>
+<td>计数归零或把提问当答案</td>
+</tr>
+<tr>
+<td>近期条件无结果</td>
+<td>暂未找到最近90天的相关反馈</td>
+<td>查看更早反馈、修改问题</td>
+<td>更早评论包装为当前反馈</td>
+</tr>
+<tr>
+<td>AI服务不可用</td>
+<td>暂时无法完成AI搜索</td>
+<td>重试、切换包含关键词、查看全部</td>
+<td>以“没有评论”掩盖失败</td>
+</tr>
+<tr>
+<td>整体网络错误</td>
+<td>网络有点慢，稍后再试</td>
+<td>重试、查看全部评论</td>
+<td>删除已有评论或搜索文本</td>
+</tr>
+<tr>
+<td>结果分页失败</td>
+<td>后续结果加载失败</td>
+<td>重试本页</td>
+<td>清空已加载结果</td>
+</tr>
+<tr>
+<td>笔记不可见</td>
+<td>这篇笔记暂时无法查看</td>
+<td>返回首页</td>
+<td>搜索或显示缓存中的受限评论</td>
+</tr>
+<tr>
+<td>上下文缺失</td>
+<td>原评论不可见</td>
+<td>查看仍可见的回复</td>
+<td>还原不可见正文</td>
+</tr>
+</tbody></table>
+<p>“编辑并发出问题”只把查询带入评论编辑框。用户可以修改，点击发布后才新增评论。搜索文本可能是片段、型号或隐私条件，不直接发布，也不自动通知任何人。仅关键词时，编辑框显示原词并提示完善问题；自然语言问题保留原句。</p>
+<h2>11 前端组件与状态</h2>
+<p>建议使用以下组件边界，具体框架可由开发选择。</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>责任</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AppShell</code></td>
+<td>桌面导航、移动底栏、安全区、页面路由</td>
+</tr>
+<tr>
+<td><code>DiscoveryFeed</code>与<code>NoteCard</code></td>
+<td>双列内容、封面占位、卡片进入详情、独立点赞</td>
+</tr>
+<tr>
+<td><code>NoteDetail</code></td>
+<td>笔记加载、详情滚动、返回首页位置恢复</td>
+</tr>
+<tr>
+<td><code>ImageGallery</code></td>
+<td>图集、页数、键盘与触摸操作</td>
+</tr>
+<tr>
+<td><code>CommentSection</code></td>
+<td>完整评论和局部检索的切换</td>
+</tr>
+<tr>
+<td><code>CommentSearchBar</code></td>
+<td>输入、模式、提交、清空、退出</td>
+</tr>
+<tr>
+<td><code>SearchResultHeader</code></td>
+<td>N组M条、状态文案、查看全部</td>
+</tr>
+<tr>
+<td><code>ThreadCard</code>与<code>CommentItem</code></td>
+<td>根评论、回复链、高亮、展开和互动</td>
+</tr>
+<tr>
+<td><code>SearchFeedback</code></td>
+<td>无结果、只有提问、澄清和错误</td>
+</tr>
+<tr>
+<td><code>CommentComposer</code></td>
+<td>回复目标、草稿、确认发布</td>
+</tr>
+<tr>
+<td><code>Toast</code>与<code>Skeleton</code></td>
+<td>短反馈与加载占位，不遮挡输入</td>
+</tr>
+</tbody></table>
+<p>页面状态与搜索状态分开。至少保存 <code>noteId</code>、<code>query</code>、<code>mode</code>、<code>status</code>、<code>requestId</code>、<code>snapshotId</code>、<code>results</code>、<code>counts</code>、<code>nextCursor</code>、<code>expandedThreadIds</code>、<code>originalCommentAnchor</code>和<code>resultScrollAnchor</code>。点赞与收藏以内容ID存储，不能因模式切换丢失或对同条评论显示相反状态。</p>
+<p>原型使用本地 <code>app/data.js</code>、异步适配器和延迟模拟。<code>app/search.js</code> 使用人工主题、评论角色和条件标签演示意图检索；它不是实际模型服务，也不能承诺处理任意未标注诉求。原型明确标为演示，真实AI能力需以后接入检索服务并验证。</p>
+<p>界面名称与内部枚举分开：界面「相关评论」在模拟函数中传 <code>mode=&#39;ai&#39;</code>，生产请求适配为 <code>mode=&#39;semantic&#39;</code>；界面「包含关键词」在模拟函数和生产接口均传 <code>mode=&#39;keyword&#39;</code>。本版模拟引擎同时接收<code>semantic</code>别名，并在函数入口归一化为<code>ai</code>，避免排序和澄清分支丢失。模拟状态 <code>success</code>、<code>unanswered</code>、<code>clarify</code>分别适配生产的 <code>answer_found</code>、<code>questions_only</code>、<code>needs_clarification</code>；<code>idle</code>与输入校验由前端管理。</p>
+<h2>12 数据与接口契约</h2>
+<p>以下为建议契约，联调前由前后端固定字段。所有可见性与权限由服务端处理，前端不得用隐藏DOM保存不可见评论。</p>
+<h3>12.1 笔记与评论字段</h3>
+<p>笔记包含 <code>id</code>、<code>title</code>、<code>bodyParagraphs</code>、<code>tags</code>、<code>author</code>、<code>images</code>、<code>publishedAt</code>、<code>likeCount</code>、<code>saveCount</code>、<code>visibleCommentCount</code>和<code>commentSearchEligible</code>。</p>
+<p>评论包含 <code>id</code>、<code>noteId</code>、<code>rootId</code>、<code>parentId</code>、<code>replyToId</code>、<code>author</code>、<code>text</code>、<code>images</code>、<code>createdAt</code>、<code>likeCount</code>、<code>replyCount</code>、<code>isAuthor</code>和<code>visibility</code>。ID与路由稳定；日期使用ISO 8601。时间文案由前端本地化。</p>
+<h3>12.2 检索请求</h3>
+<p><code>POST /api/v1/notes/{noteId}/comment-search</code></p>
+<pre><code class="language-json">{
+  &quot;requestId&quot;: &quot;search-42&quot;,
+  &quot;query&quot;: &quot;有人带狗去过吗&quot;,
+  &quot;mode&quot;: &quot;semantic&quot;,
+  &quot;cursor&quot;: null,
+  &quot;snapshotId&quot;: null,
+  &quot;pageSize&quot;: 15,
+  &quot;clarification&quot;: null
+}
+</code></pre>
+<p><code>mode</code>限定为<code>keyword</code>或<code>semantic</code>。账号身份不由请求正文中的用户ID决定，使用服务端会话。关键词解析规则必须版本化，返回 <code>matchingVersion</code>；语义模型变更返回 <code>retrievalVersion</code>，便于质量回归。</p>
+<h3>12.3 成功响应</h3>
+<pre><code class="language-json">{
+  &quot;requestId&quot;: &quot;search-42&quot;,
+  &quot;noteId&quot;: &quot;note-fiction-restaurant-01&quot;,
+  &quot;mode&quot;: &quot;semantic&quot;,
+  &quot;status&quot;: &quot;answer_found&quot;,
+  &quot;snapshotId&quot;: &quot;snapshot-20261011-01&quot;,
+  &quot;matchingVersion&quot;: &quot;keyword-v1&quot;,
+  &quot;retrievalVersion&quot;: &quot;semantic-v1&quot;,
+  &quot;counts&quot;: {
+    &quot;discussionCount&quot;: 1,
+    &quot;matchCount&quot;: 2,
+    &quot;visibleCommentCount&quot;: 146
+  },
+  &quot;intent&quot;: {
+    &quot;topic&quot;: &quot;宠物到店&quot;,
+    &quot;explicitConstraints&quot;: [],
+    &quot;timeWindow&quot;: null
+  },
+  &quot;coverage&quot;: &quot;full&quot;,
+  &quot;groups&quot;: [
+    {
+      &quot;rootId&quot;: &quot;comment-r01&quot;,
+      &quot;matchedCommentIds&quot;: [&quot;comment-r01&quot;, &quot;comment-r02&quot;],
+      &quot;roles&quot;: [&quot;question&quot;, &quot;answer&quot;],
+      &quot;root&quot;: {
+        &quot;id&quot;: &quot;comment-r01&quot;,
+        &quot;parentId&quot;: null,
+        &quot;text&quot;: &quot;可以带小狗来吗？&quot;,
+        &quot;author&quot;: {&quot;id&quot;: &quot;fiction-user-01&quot;, &quot;name&quot;: &quot;树影慢慢&quot;},
+        &quot;createdAt&quot;: &quot;2026-10-02T09:20:00+08:00&quot;,
+        &quot;likeCount&quot;: 3,
+        &quot;isAuthor&quot;: false
+      },
+      &quot;replies&quot;: [
+        {
+          &quot;id&quot;: &quot;comment-r02&quot;,
+          &quot;parentId&quot;: &quot;comment-r01&quot;,
+          &quot;replyToId&quot;: &quot;comment-r01&quot;,
+          &quot;text&quot;: &quot;我们那天坐露台，小型宠物可以，室内不行。&quot;,
+          &quot;author&quot;: {&quot;id&quot;: &quot;fiction-user-02&quot;, &quot;name&quot;: &quot;禾枝&quot;},
+          &quot;createdAt&quot;: &quot;2026-10-02T10:05:00+08:00&quot;,
+          &quot;likeCount&quot;: 8,
+          &quot;isAuthor&quot;: true
+        }
+      ],
+      &quot;highlights&quot;: [
+        {&quot;commentId&quot;: &quot;comment-r01&quot;, &quot;ranges&quot;: [[2, 4]], &quot;kind&quot;: &quot;semantic_evidence&quot;}
+      ],
+      &quot;contextOnlyCommentIds&quot;: [],
+      &quot;contextComplete&quot;: true,
+      &quot;constraintEvidence&quot;: [],
+      &quot;hasDifferentExperiences&quot;: false,
+      &quot;originalAnchor&quot;: {&quot;rootId&quot;: &quot;comment-r01&quot;, &quot;commentId&quot;: &quot;comment-r02&quot;}
+    }
+  ],
+  &quot;clarificationOptions&quot;: [],
+  &quot;nextCursor&quot;: null
+}
+</code></pre>
+<p><code>coverage=full</code>才可展示完整计数。若部分索引暂不可用，返回<code>coverage=partial</code>和原因，页面说明“部分评论暂未检索完成”，不得展示成全量0结果。首版上线要求全量索引覆盖可见文本。</p>
+<h3>12.4 其他业务状态</h3>
+<pre><code class="language-json">{
+  &quot;requestId&quot;: &quot;search-43&quot;,
+  &quot;status&quot;: &quot;questions_only&quot;,
+  &quot;counts&quot;: {&quot;discussionCount&quot;: 2, &quot;matchCount&quot;: 2},
+  &quot;groups&quot;: [],
+  &quot;nextCursor&quot;: null
+}
+</code></pre>
+<p>上例只说明状态字段；真实响应必须带这2组讨论，不能有计数而没有内容。<code>empty</code>必须计数均为0；<code>needs_clarification</code>的计数为<code>null</code>，返回选项，不假装检索已经完成。</p>
+<pre><code class="language-json">{
+  &quot;requestId&quot;: &quot;search-44&quot;,
+  &quot;status&quot;: &quot;needs_clarification&quot;,
+  &quot;counts&quot;: null,
+  &quot;groups&quot;: [],
+  &quot;clarificationOptions&quot;: [
+    {&quot;id&quot;: &quot;taste&quot;, &quot;label&quot;: &quot;口味&quot;},
+    {&quot;id&quot;: &quot;price&quot;, &quot;label&quot;: &quot;价格&quot;},
+    {&quot;id&quot;: &quot;service&quot;, &quot;label&quot;: &quot;服务&quot;}
+  ]
+}
+</code></pre>
+<h3>12.5 错误与原讨论</h3>
+<p>错误通过HTTP状态和结构化错误返回，不复用<code>empty</code>。400为输入不合法，403为无权访问，404为笔记不可见，429为请求过多，503为服务不可用。前端保留查询和已有内容，使用适合用户理解的文案。</p>
+<pre><code class="language-json">{
+  &quot;requestId&quot;: &quot;search-45&quot;,
+  &quot;error&quot;: {&quot;code&quot;: &quot;SEMANTIC_UNAVAILABLE&quot;, &quot;retryable&quot;: true},
+  &quot;fallbackModes&quot;: [&quot;keyword&quot;]
+}
+</code></pre>
+<p>原讨论采用 <code>GET /api/v1/notes/{noteId}/comment-threads/{rootId}?anchorCommentId={id}</code>，返回当前可见根评论与目标回复链；结果失效时返回对应状态。评论发布、点赞和收藏使用独立接口，成功后更新一致缓存。</p>
+<h2>13 性能与可访问性</h2>
+<p>本节数值为开发目标，需在代表性设备与网络上测量，不代表当前线上实测。</p>
+<ul>
+<li>点击与模式切换在100ms内出现视觉反馈；大请求只显示轻量骨架，避免阻塞页面。</li>
+<li>搜索耗时目标：关键词P95不高于500ms；语义P95不高于2秒。超过800ms保留明显加载反馈，超过10秒进入可重试错误，具体超时由服务约定。</li>
+<li>首页与详情首屏图片按尺寸加载，懒加载非首屏图，固定宽高比；搜索展开不重排图集和正文。</li>
+<li>保持搜索输入、结果展开和滚动过程流畅；大评论列表分批渲染，避免一次插入所有评论。</li>
+<li>支持键盘Tab、Enter、Esc，焦点顺序合理；退出搜索焦点回入口，关闭编辑器焦点回发起按钮。</li>
+<li>搜索加载与结果数用<code>aria-live=polite</code>播报；加载结束不无条件把键盘焦点抢到结果。</li>
+<li>触摸目标建议至少44px；可见标签与辅助说明对比度满足WCAG AA；红色不作为唯一状态区别。</li>
+<li>支持200%缩放、320px窄屏、系统减少动效、移动端安全区与虚拟键盘；固定底栏不遮挡评论输入和最后一条结果。</li>
+<li>用户内容按纯文本安全渲染。AI检索不能把评论中的指令当成系统指令；不发送与当前检索无关的私信、个人资料或其他笔记数据。</li>
+</ul>
+<h2>14 P0与P1交付</h2>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P0前端原型</td>
+<td>首页双列与虚构封面；至少六篇完整详情；图集；点赞收藏；评论展开与编辑；入口门槛；两种检索模式；示例；高亮；N组M条；上下文；原讨论与返回；无结果、只有提问、澄清与错误；响应式和可访问性</td>
+</tr>
+<tr>
+<td>P0真实服务</td>
+<td>全量可见评论与回复检索；精确规则；语义约束；讨论聚合；精确计数；稳定分页；权限；取消与重试；必要埋点</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>评论图中文字与语音检索；同义说明；更细的时间筛选；主动放宽条件；查询历史；高频需求提示；更多检索质量工具</td>
+</tr>
+</tbody></table>
+<p>P0原型与P0真实服务分别验收。可点击演示完成不代表算法质量、索引覆盖或全站时长已经达标。</p>
+<h3>14.1 当前模拟检索的适配界限</h3>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>模拟引擎覆盖</th>
+<th>生产版要求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>意图理解</td>
+<td>人工主题词、评论角色和样本标签；已标注的生活、学习等问题</td>
+<td>任意合理表达需真实检索与评估，不能仅用当前词表证明泛化</td>
+</tr>
+<tr>
+<td>明确数字条件</td>
+<td>支持已识别的身高、带cm或厘米单位的桌面宽度、数字岁年龄、20开头的四位年份</td>
+<td>解析中文数字、范围、单位换算及组合条件；明确证据缺失与冲突</td>
+</tr>
+<tr>
+<td>型号</td>
+<td>已知词典最长实体，N7与N7 Pro分开</td>
+<td>扩充型号词典、版本与可核实别名；不得自动合并系列与具体型号</td>
+</tr>
+<tr>
+<td>预算</td>
+<td>预算、不超过、最多等可识别表达；依赖标注价格或预算字段</td>
+<td>理解复杂阈值与币种，实际支出与价格口径一致</td>
+</tr>
+<tr>
+<td>否定条件</td>
+<td>当前覆盖免打孔、不打孔等限定表达</td>
+<td>扩展其他明确排除诉求，校验否定对象与引用关系</td>
+</tr>
+<tr>
+<td>时间</td>
+<td>使用2026年10月11日演示基准及90天窗口</td>
+<td>使用服务端当前时间，场景化配置近期窗口</td>
+</tr>
+<tr>
+<td>结果与上下文</td>
+<td>存储样本内全量检索、根讨论聚合、唯一ID计数、父回复链</td>
+<td>权限、删除、索引延迟、快照分页与统计一致性</td>
+</tr>
+</tbody></table>
+<p>上述边界中的未覆盖表达不能宣称已支持。自动测试只覆盖模拟引擎的确定性规则与已识别约束；界面滑动、动画、焦点、布局和生产服务需要各自验收。</p>
+<h2>15 埋点与实验验收</h2>
+<h3>15.1 事件</h3>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>触发</th>
+<th>建议属性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>comment_search_entry_expose</code></td>
+<td>入口进入视口</td>
+<td>noteId、场景、评论量区间</td>
+</tr>
+<tr>
+<td><code>comment_search_open</code></td>
+<td>点击入口</td>
+<td>默认模式、来源</td>
+</tr>
+<tr>
+<td><code>comment_search_submit</code></td>
+<td>有效提交</td>
+<td>requestId、mode、查询长度、输入类型、是否示例</td>
+</tr>
+<tr>
+<td><code>comment_search_complete</code></td>
+<td>返回业务状态</td>
+<td>status、N、M、耗时、coverage、版本</td>
+</tr>
+<tr>
+<td><code>comment_search_mode_change</code></td>
+<td>切模式</td>
+<td>fromMode、toMode、是否已有查询</td>
+</tr>
+<tr>
+<td><code>comment_search_thread_expand</code></td>
+<td>展开回复</td>
+<td>rootId、是否命中回复</td>
+</tr>
+<tr>
+<td><code>comment_search_original_open</code></td>
+<td>定位原讨论</td>
+<td>rootId、目标commentId</td>
+</tr>
+<tr>
+<td><code>comment_search_exit</code></td>
+<td>退出搜索</td>
+<td>停留时间、是否查看结果、出口</td>
+</tr>
+<tr>
+<td><code>comment_search_question_edit</code></td>
+<td>无结果后打开编辑</td>
+<td>输入类型、是否改写</td>
+</tr>
+<tr>
+<td><code>comment_publish</code></td>
+<td>用户确认发布</td>
+<td>来源、发布成功状态</td>
+</tr>
+<tr>
+<td><code>comment_search_feedback</code></td>
+<td>可选有用反馈</td>
+<td>是否找到需要信息、mode</td>
+</tr>
+</tbody></table>
+<p>默认分析不记录原始查询全文，只记录类型与长度。检索质量样本单独按授权与脱敏流程采集，不把隐私诉求直接发往普通行为日志。原型可提供事件观察器供测试，不接真实统计服务。</p>
+<h3>15.2 用户价值</h3>
+<p>线下任务测试比较无搜索、包含关键词、相关评论三种方式，记录任务完成率、耗时、答案证据是否充足、漏掉重要回复与错误满足约束的情况。优先保证结果正确和上下文完整，再优化速度。</p>
+<p>上线后按场景和评论量区间分别观察使用率、重复使用、无结果率、改词率、模式切换、回复阅读和问题发布。不以查询次数多直接认定成功，反复搜不到也会增加次数。</p>
+<h3>15.3 全站时长约束</h3>
+<p>实验按用户随机分组，避免同一用户在笔记间反复切换组别。时长主要指标是全部分组用户在固定观察窗内的全站活跃使用时长，包含未使用搜索的用户；按用户汇总，未活跃日记为0，避免只看搜索使用者产生选择偏差。</p>
+<p>至少覆盖完整周周期，并按基线方差做样本量与实验周期设计。关注7日与14日窗口、使用天数、次日与7日留存，防止单次使用变快但复访没有补足。评论区时长、下一篇点击和互动属于过程指标，不能替代全站时长。</p>
+<p>扩大上线要求：用户查找成功显著改善；全站时长点估计不下降；预先定义的统计检验支持不下降。当前允许损失阈值为0，不擅自设置可接受的1%或3%下降。如果置信区间仍包含负向变化，应继续实验或调整方案，不宣布无损。若后续业务允许非零容忍幅度，需要单独明确，不能在数据出来后临时修改。</p>
+<h2>16 逐条验收用例</h2>
+<p>以下案例全部使用虚构测试数据。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>操作或数据</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A01</td>
+<td>首页点击任意卡片</td>
+<td>打开正确详情；封面、标题、作者一致</td>
+</tr>
+<tr>
+<td>A02</td>
+<td>首页点击点赞</td>
+<td>只切换点赞，不进入详情；返回时状态一致</td>
+</tr>
+<tr>
+<td>A03</td>
+<td>详情返回首页</td>
+<td>恢复原信息流位置，不重新跳到顶部</td>
+</tr>
+<tr>
+<td>A04</td>
+<td>单图与多图状态分别体验</td>
+<td>单图无页码与切换按钮；多图滑动时图片与页数同步、首尾不越界</td>
+</tr>
+<tr>
+<td>A05</td>
+<td>总可见评论100条与101条</td>
+<td>前者不显示入口，后者显示</td>
+</tr>
+<tr>
+<td>A06</td>
+<td>搜索时键盘展开</td>
+<td>输入和按钮可见，底栏不遮挡</td>
+</tr>
+<tr>
+<td>K01</td>
+<td>查询「停车」，评论只写「车位」</td>
+<td>关键词不命中；AI可按证据检索</td>
+</tr>
+<tr>
+<td>K02</td>
+<td>输入全角「Ｎ７」匹配「n7」</td>
+<td>命中，原文展示不改写</td>
+</tr>
+<tr>
+<td>K03</td>
+<td>查询「数学 基础」</td>
+<td>同一条评论同时含两项才命中</td>
+</tr>
+<tr>
+<td>K04</td>
+<td>父评论含数学，回复只含基础</td>
+<td>不通过多词AND；不能拼接命中</td>
+</tr>
+<tr>
+<td>K05</td>
+<td>查询160；数据有160cm、1600、160.5</td>
+<td>仅160cm命中</td>
+</tr>
+<tr>
+<td>K06</td>
+<td>查询N7；词典含N7 Pro；数据仅有N70、N7Pro、N7 Pro</td>
+<td>不命中；有独立N7提及才命中</td>
+</tr>
+<tr>
+<td>K07</td>
+<td>查询N-7；数据只有N7</td>
+<td>精确模式无结果，不偷偷合并型号</td>
+</tr>
+<tr>
+<td>K08</td>
+<td>输入未闭合引号或空白</td>
+<td>给输入反馈，不请求、不显示0</td>
+</tr>
+<tr>
+<td>K09</td>
+<td>评论有emoji与全角字</td>
+<td>高亮落在原文本正确位置，无乱码</td>
+</tr>
+<tr>
+<td>K10</td>
+<td>评论昵称含关键词，正文不含</td>
+<td>不命中</td>
+</tr>
+<tr>
+<td>K11</td>
+<td>查询-5，评论只有-50；查询dog，评论只有dogs</td>
+<td>完整数值和英文词边界均不命中</td>
+</tr>
+<tr>
+<td>K12</td>
+<td>评论「数」与「学」间有不可显示零宽字符</td>
+<td>去除零宽字符后匹配数学，原文高亮正确</td>
+</tr>
+<tr>
+<td>S01</td>
+<td>输入「有人带狗去过吗」，评论写毛孩子</td>
+<td>可以召回具体体验，结果保留原文</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>只有「可以带狗吗」提问，无回答</td>
+<td>questions_only，N/M大于0，不称已回答</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>父评论问宠物，作者回复「室外可以」</td>
+<td>回复命中，显示父评论与回复</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>输入「只看N7」，候选讨论N70或N7 Pro</td>
+<td>不标为满足型号条件</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>输入「不用烤箱」，候选必须用烤箱</td>
+<td>不作为符合条件的答案</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>输入「能带狗吗」，有允许与不允许的经历</td>
+<td>保留两方及时间和条件，不只留正面</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>输入「这家怎么样」</td>
+<td>需要时返回少量澄清项，不伪造答案</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>输入「最近」，只有90天之前反馈</td>
+<td>明确近期无结果，主动操作才查看更早</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>查询90cm书桌，候选明确为100cm；查询六岁孩子，候选无年龄依据</td>
+<td>不标为满足明确尺寸或年龄条件</td>
+</tr>
+<tr>
+<td>S10</td>
+<td>只看不用打孔的安装方法，候选必须在墙上打孔</td>
+<td>不作为符合排除条件的体验</td>
+</tr>
+<tr>
+<td>S11</td>
+<td>只有相关问题和一句「谢谢」，没有实质答复</td>
+<td>questions_only，不因有opinion就显示已找到答复</td>
+</tr>
+<tr>
+<td>C01</td>
+<td>同组根评论和两条回复均命中</td>
+<td>N=1，M=3；不生成三组重复卡片</td>
+</tr>
+<tr>
+<td>C02</td>
+<td>只有回复命中，父评论只是语境</td>
+<td>N=1，M=1，父评论不计命中</td>
+</tr>
+<tr>
+<td>C03</td>
+<td>命中嵌套回复</td>
+<td>带根评论与必要引用链，关系可理解</td>
+</tr>
+<tr>
+<td>C04</td>
+<td>原父评论不可见</td>
+<td>不泄露正文；标注缺失；不强推断答案</td>
+</tr>
+<tr>
+<td>C05</td>
+<td>翻到第二页</td>
+<td>N/M不变，组不重复，游标稳定</td>
+</tr>
+<tr>
+<td>C06</td>
+<td>查看原讨论后返回结果</td>
+<td>查询、模式、展开和滚动位置恢复</td>
+</tr>
+<tr>
+<td>C07</td>
+<td>查看全部评论退出搜索</td>
+<td>回到搜索前位置，与定位原讨论区分</td>
+</tr>
+<tr>
+<td>E01</td>
+<td>关键词零结果</td>
+<td>0组0条，提供切换相关评论与改词，无自动发布</td>
+</tr>
+<tr>
+<td>E02</td>
+<td>AI服务超时</td>
+<td>错误状态，保留查询，不显示0条</td>
+</tr>
+<tr>
+<td>E03</td>
+<td>无结果点击发出问题</td>
+<td>进入编辑，用户确认后才发布</td>
+</tr>
+<tr>
+<td>E04</td>
+<td>快速提交A然后B，A较晚返回</td>
+<td>仅展示B结果</td>
+</tr>
+<tr>
+<td>E05</td>
+<td>请求中退出或切笔记</td>
+<td>旧返回不干扰新页面</td>
+</tr>
+<tr>
+<td>E06</td>
+<td>后续页失败</td>
+<td>已加载结果保留，可重试下一页</td>
+</tr>
+<tr>
+<td>E07</td>
+<td>可见性变化或笔记不可访问</td>
+<td>受限内容消失，无缓存泄露</td>
+</tr>
+<tr>
+<td>U01</td>
+<td>Tab、Enter、Esc操作</td>
+<td>可完成搜索和退出，焦点返回正确</td>
+</tr>
+<tr>
+<td>U02</td>
+<td>320px、200%缩放、减少动效</td>
+<td>无横向溢出，关键操作可达</td>
+</tr>
+<tr>
+<td>U03</td>
+<td>所有模拟搜索结果</td>
+<td>计数由样本得出，AI为演示的说明可找到</td>
+</tr>
+</tbody></table>
+<h2>17 开发前仍需确定的取舍</h2>
+<ol>
+<li><strong>默认模式。</strong> 本版采用「相关评论」；如果用户希望精确查找，默认AI可能返回范围过宽。通过原型观察模式理解后固定默认值，不在后台猜测并静默切换。</li>
+<li><strong>入口门槛。</strong> 评论数大于100用于试点，不能说明100是最优阈值。按实际需要查找的比例检验。</li>
+<li><strong>结果单位。</strong> 本版按讨论聚合、同时显示命中条数，语境更完整；比逐条平铺占用更多空间。前端需控制折叠但不能牺牲关键回复。</li>
+<li><strong>硬条件与召回。</strong> 保持明确型号、数字和否定条件会减少结果，却能避免把不适合的经验当成答案。首版优先准确，扩展范围由用户主动发起。</li>
+<li><strong>时间窗。</strong> 「最近90天」是建议定义，应结合不同内容时效确定，原型需可配置。</li>
+<li><strong>数据与真实AI。</strong> 前端原型可以完成交互与数据契约；真实检索服务、准确性与全站时长结果属于后续独立验收。</li>
+</ol>
+<p>本版可直接开展前端实现。上线前必须完成接口联调、真实样本质量评估与时长实验，三者各自有明确验收结果。</p>
+</main></body></html>

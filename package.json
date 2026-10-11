@@ -1,0 +1,14 @@
+{
+  "name": "xiaohongshu-bishi-ping-li-zhao",
+  "version": "1.0.0",
+  "private": true,
+  "description": "小红书笔试：评里找 PRD 与完整前端交互原型",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.cjs",
+    "test": "node tests/search.test.js",
+    "verify": "node scripts/verify-bundle.cjs"
+  }
+}

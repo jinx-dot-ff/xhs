@@ -1,0 +1,293 @@
+{
+  "passed": 63,
+  "failed": 0,
+  "blocked": 0,
+  "total": 63,
+  "storedComments": [
+    {
+      "id": "cafe",
+      "title": "在这家小店，把周末调成慢速",
+      "count": 106
+    },
+    {
+      "id": "outfit",
+      "title": "160cm也能穿松弛一点，别急着塞衣角",
+      "count": 105
+    },
+    {
+      "id": "study",
+      "title": "高二数学｜从“看懂了”到“自己会做”的一小步",
+      "count": 106
+    },
+    {
+      "id": "trail",
+      "title": "松岚环线｜半天走进绿意，不必走到山顶",
+      "count": 105
+    },
+    {
+      "id": "earbuds",
+      "title": "N7用满三周｜通勤够用，开会先别急着下结论",
+      "count": 106
+    },
+    {
+      "id": "home",
+      "title": "给小房间留一张书桌，100cm也能好好坐下",
+      "count": 105
+    }
+  ],
+  "adapterNote": "semantic-to-ai mapping is tested at the contract boundary; this does not claim a production adapter or live model exists.",
+  "results": [
+    {
+      "name": "data: six fictional scenarios and complete comment counts",
+      "status": "passed"
+    },
+    {
+      "name": "data: every stored comment has a unique ID",
+      "status": "passed"
+    },
+    {
+      "name": "engine: module loads and exports search",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: AND is satisfied within the same comment only",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: does not expand synonyms",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: quoted phrase preserves continuous wording",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: unclosed quote is invalid rather than empty",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: full-width digits normalize to half-width",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: 160 matches 160cm but excludes 1600 and 2160",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: integer excludes decimals and numeric-equivalent literals",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: decimal only matches the complete decimal",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: negative number excludes longer negative numbers",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: positive integer does not silently match a negative number",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: full English-word boundaries avoid plural substrings",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: English case and Chinese adjacency are supported",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: invisible zero-width characters normalize",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: known N7 model excludes N7 Pro and N70",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: independent N7 mention survives a longer model mention",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: hyphenated model is not silently aliased",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: full-width digits map to the original text offsets",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: zero-width removal retains the original span",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: emoji before normalized digits keeps UTF-16 offsets",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: 160 excludes 1600 and decimal fragments",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: N7 excludes the longer known Pro entity",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: overlapping keyword ranges merge",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: normalized whitespace maps the complete original phrase",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: separated repeated hits remain separate",
+      "status": "passed"
+    },
+    {
+      "name": "context: reply-only hit includes its root but does not count it",
+      "status": "passed"
+    },
+    {
+      "name": "context: root plus two reply hits produce N=1 M=3",
+      "status": "passed"
+    },
+    {
+      "name": "context: deep reply keeps the complete parent chain",
+      "status": "passed"
+    },
+    {
+      "name": "context: flat sibling storage still follows replyToId",
+      "status": "passed"
+    },
+    {
+      "name": "AI: concrete pet question matches a different expression",
+      "status": "passed"
+    },
+    {
+      "name": "AI: no relevant material returns empty counts",
+      "status": "passed"
+    },
+    {
+      "name": "AI: questions without an answer retain nonzero counts",
+      "status": "passed"
+    },
+    {
+      "name": "AI: question plus thanks is not treated as answered",
+      "status": "passed"
+    },
+    {
+      "name": "AI: explicit height filters incompatible height evidence",
+      "status": "passed"
+    },
+    {
+      "name": "AI: explicit width filters incompatible width evidence",
+      "status": "passed"
+    },
+    {
+      "name": "AI: explicit model does not include Pro-only experience",
+      "status": "passed"
+    },
+    {
+      "name": "AI: budget cap excludes higher prices and unknown prices",
+      "status": "passed"
+    },
+    {
+      "name": "AI: explicit child age excludes incompatible and unknown age",
+      "status": "passed"
+    },
+    {
+      "name": "AI: does not claim a required no-drill condition for drilling",
+      "status": "passed"
+    },
+    {
+      "name": "AI: permission question keeps both allowing and prohibiting experiences",
+      "status": "passed"
+    },
+    {
+      "name": "AI: recent query excludes old evidence",
+      "status": "passed"
+    },
+    {
+      "name": "AI: vague query requests clarification, without zero counts",
+      "status": "passed"
+    },
+    {
+      "name": "error: unavailable service is not an empty-result claim",
+      "status": "passed"
+    },
+    {
+      "name": "adapter: production semantic maps to demo ai including clarification",
+      "status": "passed"
+    },
+    {
+      "name": "adapter: engine directly accepts semantic as an ai alias",
+      "status": "passed"
+    },
+    {
+      "name": "adapter: production keyword remains keyword with exact behavior",
+      "status": "passed"
+    },
+    {
+      "name": "data search: cafe pet intent finds original experiences",
+      "status": "passed"
+    },
+    {
+      "name": "data search: only unanswered biology question is not a fabricated answer",
+      "status": "passed"
+    },
+    {
+      "name": "data search: wired-computer query does not expand into general compatibility",
+      "status": "passed"
+    },
+    {
+      "name": "data search: 160 does not retrieve the 1600mm room-width comment",
+      "status": "passed"
+    },
+    {
+      "name": "data search: N7 excludes every Pro-only text",
+      "status": "passed"
+    },
+    {
+      "name": "data search: searchable total equals stored roots and replies",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: metric units match attached digits and normalize case and width",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: each metric unit excludes fragments of other units",
+      "status": "passed"
+    },
+    {
+      "name": "keyword: numeric and unit tokens retain exact numeric boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "highlight: metric unit boundaries and normalization match search",
+      "status": "passed"
+    },
+    {
+      "name": "context: a unit hit in a reply retains the parent without counting it",
+      "status": "passed"
+    },
+    {
+      "name": "data search: cm variants retrieve six home comments in both modes",
+      "status": "passed"
+    },
+    {
+      "name": "data search: cm does not automatically expand to every height discussion",
+      "status": "passed"
+    },
+    {
+      "name": "AI: English words containing cm are not interpreted as height",
+      "status": "passed"
+    },
+    {
+      "name": "AI: explicit outfit heights preserve intent recall without a literal unit",
+      "status": "passed"
+    }
+  ]
+}

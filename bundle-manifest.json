@@ -1,0 +1,371 @@
+{
+  "project": "小红书笔试 评里找",
+  "snapshotDate": "2026-10-11",
+  "algorithm": "SHA-256",
+  "excluded": [
+    "bundle-manifest.json",
+    "tests/handoff-results.json"
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 43,
+      "sha256": "38864466bad0e93fa2ceb2e8f22a913b3cda62631d387788f25173cdef9e3e6d"
+    },
+    {
+      "path": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 1684,
+      "sha256": "c73ca3ba956a7902e3721b2f0bae6a2ff24014b0a93c05d625442c8070d33711"
+    },
+    {
+      "path": "AI开发交接.md",
+      "bytes": 27047,
+      "sha256": "381c3fe4b38a324d1ac648cd80c537d995c07044fa3dc0e8963b7c9724a237ba"
+    },
+    {
+      "path": "ASSET-PROMPTS.md",
+      "bytes": 3836,
+      "sha256": "290095c3ab8085261c0233c7ef2b4472a0267a7e2c8fe2bf2efc2a9fc4e9af8d"
+    },
+    {
+      "path": "PRD.html",
+      "bytes": 53843,
+      "sha256": "a988463230252dcc4eb760323e67eca777e96ea47820e3a8024fdc837dc1bad2"
+    },
+    {
+      "path": "PRD.md",
+      "bytes": 43118,
+      "sha256": "2370b216b22fe5e0be9b13e48239cb763edcc9fe1f681347edd1c6d52e9a8e92"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5269,
+      "sha256": "f90c9db9d2cb49cfbc4192a88c711f1b02d1688f7945669abca970b3cc1940b7"
+    },
+    {
+      "path": "app/app.js",
+      "bytes": 27877,
+      "sha256": "d85316903956aa36887c765c0b34447fca9f040d490efb0a4bbcda991752a409"
+    },
+    {
+      "path": "app/assets/LICENSE-lucide.txt",
+      "bytes": 3208,
+      "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+    },
+    {
+      "path": "app/assets/avatars.webp",
+      "bytes": 263934,
+      "sha256": "14a341c163af9a2496cd44299425083e41724084cd4dd4f73a0233e98ba60f8c"
+    },
+    {
+      "path": "app/assets/cafe.webp",
+      "bytes": 279272,
+      "sha256": "71e4f1cd1e2db8914de790a28f92a2bb4e7b965557c672ea841b57c1c50d29da"
+    },
+    {
+      "path": "app/assets/earbuds.webp",
+      "bytes": 227048,
+      "sha256": "6829a90a37e044b50ca7c5529661dcfd51fd20aee59d759e29c7231bec345a8f"
+    },
+    {
+      "path": "app/assets/home.webp",
+      "bytes": 243920,
+      "sha256": "c55ab155d782709163459a0199811da0de06cd259dd400c1c06a47c7d7967083"
+    },
+    {
+      "path": "app/assets/lucide.js",
+      "bytes": 594649,
+      "sha256": "acff7dfcc1f088880b173211c94e5c73b2d6e15538dbb0d1f6588b96acd7016f"
+    },
+    {
+      "path": "app/assets/outfit.webp",
+      "bytes": 114106,
+      "sha256": "ec4da52fd17e60bac3ed341810472d509b093b007bf0c9f846e8faba3df39c28"
+    },
+    {
+      "path": "app/assets/study.webp",
+      "bytes": 276964,
+      "sha256": "1f4a253d6db489aa7a89b7eb66ec285c99b70aeb05072de39e76f659c81d5fe5"
+    },
+    {
+      "path": "app/assets/trail.webp",
+      "bytes": 837904,
+      "sha256": "80dcdbe3227ee77eeb373f0d9b4064491331edb228644d2f8e6f55c29d72c9ea"
+    },
+    {
+      "path": "app/data.js",
+      "bytes": 52526,
+      "sha256": "cf8202a2641e48fed48819206514959c31d4668f6a58a362f0ee92fecba8c433"
+    },
+    {
+      "path": "app/index.html",
+      "bytes": 2779,
+      "sha256": "1592053e5d6c996687e439cba29dd10fe4c246618da7bcf5558bc0b7ba20573a"
+    },
+    {
+      "path": "app/note.html",
+      "bytes": 4071,
+      "sha256": "7e6be0f6edbbc12b15f33680ad7d9f2d34e3c7cb4c37387096471fe40ec0abcf"
+    },
+    {
+      "path": "app/search.js",
+      "bytes": 13367,
+      "sha256": "b108ab2a939291aa0cb9c798157d08c74fbe069894092ae47ca45910975717e5"
+    },
+    {
+      "path": "app/styles.css",
+      "bytes": 20384,
+      "sha256": "31cafb7b3f9e8ff9b3bbbe254575a9995a4524e0c6d1fb7001100515d35fed74"
+    },
+    {
+      "path": "index.html",
+      "bytes": 406,
+      "sha256": "228d8f2d146b9561263b5fbc5dd150b02625a0c47573f45e63f44a0f23c5ff51"
+    },
+    {
+      "path": "package.json",
+      "bytes": 347,
+      "sha256": "4b9172b850c4ddeeb801b1a3815b7832a7342eff14096f974472cfbdc3c63900"
+    },
+    {
+      "path": "reference-assets/作者栏与分享图标参考.jpg",
+      "bytes": 38370,
+      "sha256": "4aeebce0a50aeef424527e720033c38b06800f4e530d4274e1f755f0fee57506"
+    },
+    {
+      "path": "reference-assets/参考说明.txt",
+      "bytes": 2682,
+      "sha256": "c62abde0a2f646bbd22273ccf67411ebace7cb00ae7107796144c96aee9c6663"
+    },
+    {
+      "path": "reference-assets/回复折叠参考.jpg",
+      "bytes": 56069,
+      "sha256": "54130befb73cef779c653a50cf666a5da9e665221068a4d764da220e37d0fd25"
+    },
+    {
+      "path": "reference-assets/底部导航参考.jpg",
+      "bytes": 15060,
+      "sha256": "7da3db5249d8db8bca7a18178f35a6d8769a60957e5d941ac00bb17f7139197a"
+    },
+    {
+      "path": "reference-assets/搜索输入栏参考.jpg",
+      "bytes": 16974,
+      "sha256": "c5aa8bcd5bb86abd8f38f12a78976b54dc7778402fe29aeb68271aa7c8483c99"
+    },
+    {
+      "path": "reference-assets/评论输入栏参考.jpg",
+      "bytes": 27672,
+      "sha256": "4bc7622e785b9df9ed5492f4663c783f3d78a190fb6addcd4db344dfb4cfdade"
+    },
+    {
+      "path": "reference-assets/首页页签初始参考.jpg",
+      "bytes": 26775,
+      "sha256": "a239b9a88a4ed5db583f4f062957f0e640977324e3e8682cc0902a26a47d45b2"
+    },
+    {
+      "path": "screenshots/annotations-comments.jpg",
+      "bytes": 38128,
+      "sha256": "4b0f87e4dd81ba67593c98e512e06693bf651757fc27fced1b585db241010959"
+    },
+    {
+      "path": "screenshots/annotations-home.jpg",
+      "bytes": 63237,
+      "sha256": "90afcfc8ba20d0d61590b97c69a43493c48a5b0f37ca77a03220e72137d03dd8"
+    },
+    {
+      "path": "screenshots/annotations-search.jpg",
+      "bytes": 43535,
+      "sha256": "d5e864ee89e62f2996e095a36ae306c108adcffa007e539e7a126b860b4308f8"
+    },
+    {
+      "path": "screenshots/cm-search-fixed.jpg",
+      "bytes": 47097,
+      "sha256": "f803867e63d2eb02fecc7e4b998bc07f4f7ca85a3de7edc5a2d4c5f3c435db4c"
+    },
+    {
+      "path": "screenshots/comment-placeholder-font.jpg",
+      "bytes": 52556,
+      "sha256": "b1a05cbe9307aa83a9c7ad2b6e751e3309d1c4b3ec5e2f7f5b97d7ad43d2603c"
+    },
+    {
+      "path": "screenshots/delivery-smoke.jpg",
+      "bytes": 33775,
+      "sha256": "5a16cf7ffa195078cfd4dcad48f3344c09e7b2ed235e5257b98d5ebf9796de8d"
+    },
+    {
+      "path": "screenshots/empty.jpg",
+      "bytes": 20071,
+      "sha256": "d23f7f270c59755d34933f41694fe1ae3e6e38e7ba8d00cb6c34cde0100ba5e0"
+    },
+    {
+      "path": "screenshots/home.jpg",
+      "bytes": 63621,
+      "sha256": "e2e6c8387aade7917bb1f7e6c68f971ba98770dc45f605d76f3d105b7737985a"
+    },
+    {
+      "path": "screenshots/iphone-15pro-frame.jpg",
+      "bytes": 55580,
+      "sha256": "cdbd7d96aa00d7d316a0222b9299d15603c6c15eeb19439d93abaff3bf3df40e"
+    },
+    {
+      "path": "screenshots/iphone-frame-home.jpg",
+      "bytes": 92209,
+      "sha256": "5495698a1d6d1e4f6563ecb74f8be02d1f1f8a87102c10ebf63e4be75ee029dd"
+    },
+    {
+      "path": "screenshots/iphone-frame-note.jpg",
+      "bytes": 54686,
+      "sha256": "045def054726623ee0656825ec116a449b421d462f3f4e98670636a82b41a1f3"
+    },
+    {
+      "path": "screenshots/keyword-results.jpg",
+      "bytes": 27720,
+      "sha256": "836afbb4aecc5e34e8fb52b5293cb8bd34dc4f5e571140d9bddb6b49894a171e"
+    },
+    {
+      "path": "screenshots/note.jpg",
+      "bytes": 60707,
+      "sha256": "521a002437a31575109c5dc5e2b0042037599dfacf90747f0f4e14451cbdcf79"
+    },
+    {
+      "path": "screenshots/round2-comments.jpg",
+      "bytes": 38089,
+      "sha256": "fc20e0ff097431dd08a3e101d3ca7dda3f6016d43af2535fb6c4f7c93f71b628"
+    },
+    {
+      "path": "screenshots/round2-home.jpg",
+      "bytes": 64344,
+      "sha256": "92acbb8cf747dd32e5ccdb33f1c58964b01eca99cf6ba4e63ffcd21dd2e5de0b"
+    },
+    {
+      "path": "screenshots/search-in-place.jpg",
+      "bytes": 67998,
+      "sha256": "cee6165286d25d32920cdf879dbd960a05fe819ec72a948e183e1ee2d9d09a4e"
+    },
+    {
+      "path": "screenshots/typography-home.jpg",
+      "bytes": 82406,
+      "sha256": "25b8a9bb5cedac2ba429692765046686e245ff37621ef2db7e4587581906a50a"
+    },
+    {
+      "path": "screenshots/typography-note.jpg",
+      "bytes": 67399,
+      "sha256": "60812b5fbbab0178c5035a737c4a6a946b1713c8b443552e5f2e353ad6db68ac"
+    },
+    {
+      "path": "scripts/run-node.cmd",
+      "bytes": 776,
+      "sha256": "5c12d73d6405eca4b21cf6258a5960513e17c88b4167e014859adc8b20e66e1c"
+    },
+    {
+      "path": "scripts/verify-bundle.cjs",
+      "bytes": 8840,
+      "sha256": "06184cdaffc692e3b4c6e765084ce08c0412199a4f5b3bf53b95ef4c07c2ef85"
+    },
+    {
+      "path": "server.cjs",
+      "bytes": 2372,
+      "sha256": "6e2b1d31578c1137da8acca292d139e2327af15eb16771bb6b94178e092cc2c8"
+    },
+    {
+      "path": "source-assets/avatars.png",
+      "bytes": 2567863,
+      "sha256": "3495575650f993f0b09847474d5d2a613bedda82e8b5b81e0c6ba3d7d17c9f54"
+    },
+    {
+      "path": "source-assets/cafe.png",
+      "bytes": 2572999,
+      "sha256": "01b9cad255420d02a091e865a3557087dfa360c8b385c00a719ce94503a9ff01"
+    },
+    {
+      "path": "source-assets/earbuds.png",
+      "bytes": 2578024,
+      "sha256": "2f095862acf9aba32f07c6591b0c485d72a41d7ba606cc36fdd887a1091c4beb"
+    },
+    {
+      "path": "source-assets/home.png",
+      "bytes": 2509583,
+      "sha256": "d021b5019293e9e1c1409cba81842b25b7ee9c05c1e4dd1b16572cc12f256216"
+    },
+    {
+      "path": "source-assets/outfit.png",
+      "bytes": 2074933,
+      "sha256": "adbe32bf06cbae887d38dda4d0529469a9969ba3d7995f475646e751ad8fc372"
+    },
+    {
+      "path": "source-assets/study.png",
+      "bytes": 2596275,
+      "sha256": "3e692d980212f280b33ce4c5bc72295cdc1d47e13c76db78109a0534e2ede3c0"
+    },
+    {
+      "path": "source-assets/trail.png",
+      "bytes": 4628532,
+      "sha256": "24a8fcb9bc66b9c26dcb02cffab0308634f7759108403aaa6e7a1119e3d8f866"
+    },
+    {
+      "path": "tests/search-results.json",
+      "bytes": 8109,
+      "sha256": "3e47ad55e1b8dfd0a6e807dcaa96ffc9a3f3230516cbe6bcf62e0691c2262e46"
+    },
+    {
+      "path": "tests/search.test.js",
+      "bytes": 23623,
+      "sha256": "5ec4732d4435ad9800194f986c5a9ac77da331340ce8757a083e4e188c9d10ee"
+    },
+    {
+      "path": "交付核验说明.txt",
+      "bytes": 2011,
+      "sha256": "b8b5fe7aba69058325ce9e0fd7eb91bdaa823fb8d77e9512cd3f53edc70cfc2a"
+    },
+    {
+      "path": "使用说明.txt",
+      "bytes": 1169,
+      "sha256": "b17d8a528f8b56b6b7efa88f726f5158cb647b63379a7bce72303e1c8004ac52"
+    },
+    {
+      "path": "原型预览.png",
+      "bytes": 1233914,
+      "sha256": "55938f51239772fb4276938d6bacbf0451ca97301b5bf810c7da9f2fc104798b"
+    },
+    {
+      "path": "启动预览.cmd",
+      "bytes": 110,
+      "sha256": "ff1829833f6cb304cd40b0d6a62658ba0c4126e4484ed9e8df26bd7a5ae1f329"
+    },
+    {
+      "path": "本轮修改预览.png",
+      "bytes": 563388,
+      "sha256": "f07fda25d0725eb79be78dfea2869f66386c03d85aeeb03bb8c58b65e82e3a72"
+    },
+    {
+      "path": "标注修改预览.png",
+      "bytes": 736384,
+      "sha256": "c37d611ea01b3dfd936857f8bbe87effbb69acb2f473ee7f7c5025b7fc88991b"
+    },
+    {
+      "path": "验收记录.html",
+      "bytes": 8373,
+      "sha256": "6c77a87985c1a23e4e5666ee19c3a1720d3cf3830c31f6475e4605f3ece466d4"
+    },
+    {
+      "path": "验收记录.md",
+      "bytes": 5334,
+      "sha256": "4df4c5db9aaac737ad89f0f4b3bd2e40246ac1e76dafbce18f94148df3323e00"
+    },
+    {
+      "path": "验证交付.cmd",
+      "bytes": 351,
+      "sha256": "45146f245aae67c0e30d4473466c331e487b073697f870ddbbd7b725de9496a3"
+    }
+  ]
+}
