@@ -24,7 +24,7 @@
   function closeSheet(){document.getElementById('sheet-root').innerHTML='';appViewport.style.overflow='';lastFocus?.focus();lastFocus=null;}
   document.addEventListener('keydown',event=>{const container=document.getElementById('sheet-root');if(!container.firstElementChild)return;if(event.key==='Escape'){closeSheet();event.preventDefault();event.stopImmediatePropagation();return;}if(event.key==='Tab'){const targets=[...container.querySelectorAll('button:not(:disabled),input,textarea,a[href]')];const first=targets[0],last=targets.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}}});
   document.getElementById('sheet-root').addEventListener('click',event=>{if(event.target.dataset.dismiss==='true')closeSheet();});
-  const covers={outfit:['160cm','松弛一点也很好看'],study:['看懂答案','自己做却不会？'],trail:['周末慢慢走','给自己一个绿色的下午'],earbuds:['N7 · 三周日常','通话 / 连接 / 续航']};
+  const covers={outfit:['160cm','松弛一点也很好看'],study:['看懂答案','自己做却不会？'],trail:['周末慢慢走','给自己一个绿色的下午'],earbuds:['N7 · 三周日常','通话 / 连接 / 续航'],benefits:['公司福利','餐补 / 年假 / 调休'],computer:['装机怎么取舍','内存 / 电源 / 预算']};
   function photo(note,isCover=false){const copy=isCover&&covers[note.id];return `<img src="${esc(note.cover)}" alt="${esc(note.title)}的虚构生活摄影" ${isCover?'loading="lazy"':'fetchpriority="high"'} width="1086" height="1448">${copy?`<div class="cover-copy ${note.id==='study'?'paper':''}">${esc(copy[0])}<small>${esc(copy[1])}</small></div>`:''}`;}
   if(document.body.dataset.page==='home'){
     const saved=read('home',{category:'全部',main:'发现',query:'',scroll:0});
@@ -71,6 +71,7 @@
     const stateNode=document.getElementById('search-state');
     const list=document.getElementById('comment-list');
     document.getElementById('comment-self-avatar').innerHTML=avatar('我的小日常');
+    document.getElementById('search-author-avatar').innerHTML=avatar(note.author);
     const flat=()=>engine.flatten(note);
     const count=()=>flat().length;
     const date=note.publishedAt.slice(5,10).replace('-','-');
@@ -162,6 +163,7 @@
       switch(button.dataset.action){
         case 'open-search':if(state.open){exitSearch();}else{state.beforeSearchY=appViewport.scrollTop;state.open=true;state.phase='idle';state.returnSnapshot=null;render();query.focus({preventScroll:true});}break;
         case 'search':case 'retry-search':search();break;
+        case 'voice-search':toast('语音输入为原型展示，请输入文字搜索');break;
         case 'clear-query':state.serial++;state.query='';query.value='';state.phase='idle';state.response=null;render();query.focus();break;
         case 'exit-search':exitSearch();break;
         case 'return-results':{const snapshot=state.returnSnapshot;if(!snapshot)break;Object.assign(state,snapshot,{open:true,returnSnapshot:null,focused:null});query.value=state.query;render();appViewport.scrollTo({top:snapshot.scroll,behavior:motion});break;}

@@ -52,10 +52,10 @@ function noHits(result) {
 function includesId(result, id) { assert.ok(hitIds(result).includes(id), 'Expected matched ID ' + id); }
 function excludesId(result, id) { assert.ok(!hitIds(result).includes(id), 'Unexpected matched ID ' + id); }
 
-test('data: six fictional scenarios and complete comment counts', () => {
+test('data: nine fictional scenarios and complete comment counts', () => {
   assert.equal(data.fictional, true);
-  assert.equal(notes.length, 6);
-  assert.deepEqual(new Set(notes.map(item => item.category)), new Set(['生活', '穿搭', '学习', '出行', '数码', '家居']));
+  assert.equal(notes.length, 9);
+  assert.deepEqual(new Set(notes.map(item => item.category)), new Set(['生活', '穿搭', '学习', '出行', '数码', '家居', '职场']));
   notes.forEach(item => assert.ok(countTree(item.comments) >= 105, item.id + ' has fewer than 105 stored comments'));
 }, false);
 
@@ -64,6 +64,31 @@ test('data: every stored comment has a unique ID', () => {
   function visit(items) { items.forEach(item => { all.push(item.id); visit(item.replies || []); }); }
   notes.forEach(item => visit(item.comments));
   assert.equal(new Set(all).size, all.length);
+}, false);
+
+test('data: reply references stay within their original discussion', () => {
+  notes.forEach(item => item.comments.forEach(root => {
+    const ids = new Set([root.id]);
+    const replies = [];
+    function visit(items) { items.forEach(reply => { ids.add(reply.id); replies.push(reply); visit(reply.replies || []); }); }
+    visit(root.replies || []);
+    replies.forEach(reply => {
+      assert.ok(ids.has(reply.replyToId), reply.id + ' has a missing or cross-discussion parent');
+      assert.notEqual(reply.replyToId, reply.id, reply.id + ' replies to itself');
+      assert.ok(reply.replyToAuthor, reply.id + ' has no parent author');
+    });
+  }));
+}, false);
+
+test('data: new notes keep complete routes, welfare and configuration discussions', () => {
+  for (const id of ['travel', 'benefits', 'computer']) {
+    const item = notes.find(note => note.id === id);
+    assert.ok(item && item.body.length >= 3 && item.tags.length >= 3, id + ' is incomplete');
+    assert.ok(item.comments.filter(comment => comment.id.startsWith(id + '-c')).length >= 24, id + ' needs 24 core discussions');
+    assert.ok(item.comments.some(root => root.replies.some(reply => /-r\d+$/.test(reply.replyToId))), id + ' has no reply-to-reply context');
+    assert.equal(item.cover, 'assets/' + id + '.webp');
+    assert.deepEqual(item.images, [item.cover]);
+  }
 }, false);
 
 test('engine: module loads and exports search', () => {
@@ -470,6 +495,152 @@ test('AI: explicit outfit heights preserve intent recall without a literal unit'
     assert.deepEqual(hitIds(engine.search(outfit, query, 'ai')), ['outfit-c03']);
   }
   assert.deepEqual(hitIds(engine.search(outfit, '168cm', 'ai')), ['outfit-c04']);
+});
+
+test('travel: old town versus station retains both quiet and convenient stays', () => {
+  const travel = notes.find(item => item.id === 'travel');
+  const result = engine.search(travel, '住老城还是车站', 'ai');
+  assert.equal(result.status, 'success');
+  includesId(result, 'travel-c05-r1');
+  includesId(result, 'travel-c05-r2');
+  includesId(result, 'travel-c06');
+  includesId(result, 'travel-c07');
+  excludesId(result, 'travel-c19');
+});
+
+test('travel: a trip without driving includes transfers and their limitations', () => {
+  const travel = notes.find(item => item.id === 'travel');
+  const result = engine.search(travel, '不用自驾怎么走', 'ai');
+  assert.equal(result.status, 'success');
+  includesId(result, 'travel-c11-r1');
+  includesId(result, 'travel-c11-r2');
+  includesId(result, 'travel-c12');
+  excludesId(result, 'travel-c05');
+  assert.equal(result.matchCount, new Set(hitIds(result)).size);
+});
+
+test('travel: itinerary search preserves alternatives and weather changes', () => {
+  const result = engine.search(notes.find(item => item.id === 'travel'), '三天两夜路线怎么安排', 'ai');
+  assert.equal(result.status, 'success');
+  for (const id of ['travel-c01-r1', 'travel-c02', 'travel-c03', 'travel-c04']) includesId(result, id);
+  excludesId(result, 'travel-c18');
+});
+
+test('travel: luggage intent can find a hotel-front-desk answer without exact wording', () => {
+  const result = engine.search(notes.find(item => item.id === 'travel'), '行李寄存怎么安排', 'ai');
+  assert.equal(result.status, 'success');
+  includesId(result, 'travel-c21-r1');
+  excludesId(result, 'travel-c19');
+});
+
+test('travel: a keyword reply hit keeps the question and counts only the reply', () => {
+  const result = engine.search(notes.find(item => item.id === 'travel'), '前台', 'keyword');
+  assert.equal(result.matchCount, 1);
+  assert.equal(result.discussionCount, 1);
+  assert.deepEqual(hitIds(result), ['travel-c21-r1']);
+  assert.deepEqual(result.groups[0].context.map(item => item.comment.id), ['travel-c21']);
+});
+
+test('travel: an unanswered wheelchair question does not borrow elderly-walking answers', () => {
+  const result = engine.search(notes.find(item => item.id === 'travel'), '轮椅能走湖区吗', 'ai');
+  assert.equal(result.status, 'unanswered');
+  assert.deepEqual(hitIds(result), ['travel-c23']);
+});
+
+test('benefits: probation meal search excludes general cafeteria-only experience', () => {
+  const result = engine.search(notes.find(item => item.id === 'benefits'), '试用期有餐补吗', 'ai');
+  assert.equal(result.status, 'success');
+  for (const id of ['benefits-c01-r1', 'benefits-c01-r2', 'benefits-c02']) includesId(result, id);
+  excludesId(result, 'benefits-c03');
+  excludesId(result, 'benefits-c10');
+  assert.ok(result.groups.flatMap(group => group.matches).every(item => /试用期/.test(item.comment.body) || (item.comment.topics || []).includes('benefitTrial')));
+});
+
+test('benefits: annual leave and comp time include approval and delayed leave', () => {
+  const result = engine.search(notes.find(item => item.id === 'benefits'), '年假和调休', 'ai');
+  assert.equal(result.status, 'success');
+  includesId(result, 'benefits-c05-r1');
+  includesId(result, 'benefits-c05-r2');
+  includesId(result, 'benefits-c06');
+  includesId(result, 'benefits-c07');
+  excludesId(result, 'benefits-c11');
+});
+
+test('benefits: probation leave requires an actual probation discussion', () => {
+  const result = engine.search(notes.find(item => item.id === 'benefits'), '试用期请假', 'ai');
+  assert.equal(result.status, 'success');
+  includesId(result, 'benefits-c09-r1');
+  excludesId(result, 'benefits-c06');
+  excludesId(result, 'benefits-c01');
+});
+
+test('benefits: remote-work search retains role-dependent conditions', () => {
+  const result = engine.search(notes.find(item => item.id === 'benefits'), '能居家办公吗', 'ai');
+  assert.equal(result.status, 'success');
+  includesId(result, 'benefits-c14-r1');
+  excludesId(result, 'benefits-c03');
+});
+
+test('benefits: an unresolved coverage-start date does not borrow checkup evidence', () => {
+  const result = engine.search(notes.find(item => item.id === 'benefits'), '补充保障生效日期', 'ai');
+  assert.equal(result.status, 'unanswered');
+  assert.deepEqual(hitIds(result), ['benefits-c18']);
+});
+
+test('computer: memory comparison keeps both light and heavy editing examples', () => {
+  const result = engine.search(notes.find(item => item.id === 'computer'), '剪视频选32G还是64G', 'ai');
+  assert.equal(result.status, 'success');
+  for (const id of ['computer-c01-r1', 'computer-c01-r2', 'computer-c02', 'computer-c03', 'computer-c04']) includesId(result, id);
+  excludesId(result, 'computer-c11');
+  excludesId(result, 'computer-c15');
+});
+
+test('computer: GPU and power search retains connector and upgrade caveats', () => {
+  const result = engine.search(notes.find(item => item.id === 'computer'), '显卡和电源怎么搭配', 'ai');
+  assert.equal(result.status, 'success');
+  includesId(result, 'computer-c06-r1');
+  includesId(result, 'computer-c06-r2');
+  includesId(result, 'computer-c09-r1');
+  includesId(result, 'computer-c10');
+  excludesId(result, 'computer-c03');
+});
+
+test('computer: memory keywords remain literal rather than semantic alternatives', () => {
+  const computer = notes.find(item => item.id === 'computer');
+  const exact = engine.search(computer, '32G', 'keyword');
+  assert.ok(exact.matchCount > 0);
+  exact.groups.flatMap(group => group.matches).forEach(item => assert.ok(engine.matchToken(engine.normalize(item.comment.body), '32g')));
+  excludesId(exact, 'computer-c03');
+  noHits(engine.search(computer, '32G 64G 电源', 'keyword'));
+});
+
+test('computer: an untested operating system is not answered by hardware compatibility', () => {
+  const result = engine.search(notes.find(item => item.id === 'computer'), '开源系统能用吗', 'ai');
+  assert.equal(result.status, 'unanswered');
+  assert.deepEqual(hitIds(result), ['computer-c23']);
+});
+
+test('new scenarios: vague intent gives useful clarification choices that can be searched', () => {
+  for (const id of ['travel', 'benefits', 'computer']) {
+    const item = notes.find(note => note.id === id);
+    const result = engine.search(item, '这个怎么样', 'ai');
+    assert.equal(result.status, 'clarify');
+    assert.equal(result.matchCount, null);
+    assert.ok(result.clarifications.length >= 3 && result.clarifications.length <= 4);
+    result.clarifications.forEach(([, query]) => assert.equal(engine.search(item, query, 'ai').status, 'success', id + ': ' + query));
+  }
+});
+
+test('new scenarios: scoped intent does not alter original-note semantic results', () => {
+  const cases = [
+    ['cafe', '有人带狗去过吗', 'cafe-c02'],
+    ['outfit', '身高158cm怎么选码', 'outfit-c03'],
+    ['study', '看懂却自己做不出', 'study-c01'],
+    ['trail', '带爸妈走会不会累', 'trail-c01'],
+    ['earbuds', 'N7能直接用线连电脑吗？', 'earbuds-c20'],
+    ['home', 'cm', 'home-c05-r1']
+  ];
+  cases.forEach(([id, query, expected]) => includesId(engine.search(notes.find(item => item.id === id), query, 'ai'), expected));
 });
 
 const summary = {

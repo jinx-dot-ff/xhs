@@ -11,7 +11,7 @@ const excluded = new Set(['bundle-manifest.json', 'tests/handoff-results.json'])
 const checks = [];
 function walk(directory = root) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-    if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === 'runtime') return [];
+    if (entry.isDirectory() && ['.git', 'node_modules', 'runtime'].includes(entry.name)) return [];
     const absolute = path.join(directory, entry.name);
     if (entry.isSymbolicLink()) throw new Error('交付不允许依赖目录外的软链接：' + absolute);
     return entry.isDirectory() ? walk(absolute) : [path.relative(root, absolute).split(path.sep).join('/')];
@@ -78,7 +78,7 @@ async function httpSmoke(files) {
   if (process.argv.includes('--refresh-manifest')) {
     const files = walk().filter(relative => !excluded.has(relative)).map(digest);
     fs.writeFileSync(manifestPath, JSON.stringify({
-      project: '小红书笔试 评里找', snapshotDate: '2026-10-11', algorithm: 'SHA-256',
+      project: '小红书笔试 评里找', snapshotDate: '2026-10-12', algorithm: 'SHA-256',
       excluded: [...excluded], files
     }, null, 2) + '\n', 'utf8');
     console.log('已更新交付文件清单：' + files.length + ' 个文件。');
@@ -98,7 +98,7 @@ async function httpSmoke(files) {
   });
   record('页面相对资源', () => {
     const references = [];
-    for (const html of ['app/index.html', 'app/note.html']) {
+    for (const html of ['index.html', 'app/index.html', 'app/note.html']) {
       const text = fs.readFileSync(path.join(root, html), 'utf8');
       for (const match of text.matchAll(/\b(?:src|href)="([^"]+)"/g)) {
         const result = resolveResource(html, match[1]);
@@ -114,23 +114,25 @@ async function httpSmoke(files) {
     }
     return { references: references.length };
   });
-  record('六篇笔记与全部图片', () => {
+  record('九篇笔记与全部图片', () => {
     const sandbox = { window: {} };
     vm.runInNewContext(fs.readFileSync(path.join(root, 'app/data.js'), 'utf8'), sandbox);
     const notes = sandbox.window.PLZ_DATA.notes;
-    ensure(notes.length === 6, '笔记数量不同');
+    ensure(notes.length === 9, '笔记数量不同');
     let comments = 0;
     const count = list => list.reduce((sum, comment) => sum + 1 + count(comment.replies || []), 0);
     for (const note of notes) {
       for (const image of [note.cover, ...(note.images || [])]) resolveResource('app/data.js', image);
       comments += count(note.comments);
+      ensure(count(note.comments) > 100, note.id + ' 的评论数不足以显示搜索入口');
     }
-    ensure(comments === 633, '原始评论数量不同');
-    for (const name of ['cafe', 'outfit', 'study', 'trail', 'earbuds', 'home', 'avatars']) {
+    const originalIds = ['cafe', 'outfit', 'study', 'trail', 'earbuds', 'home'];
+    ensure(notes.filter(note => originalIds.includes(note.id)).reduce((total, note) => total + count(note.comments), 0) === 633, '原六篇评论数量不同');
+    for (const name of [...originalIds, 'travel', 'benefits', 'computer', 'avatars']) {
       ensure(fs.existsSync(path.join(root, 'source-assets', name + '.png')), '缺少原图：' + name);
       ensure(fs.existsSync(path.join(root, 'app/assets', name + '.webp')), '缺少页面素材：' + name);
     }
-    return { notes: notes.length, comments, originalImages: 7, webpImages: 7 };
+    return { notes: notes.length, comments, originalImages: 10, webpImages: 10 };
   });
   record('JavaScript 语法', () => {
     const files = walk().filter(relative => /\.(?:js|cjs)$/.test(relative));
@@ -141,7 +143,7 @@ async function httpSmoke(files) {
     return { checkedFiles: files.length };
   });
   try {
-    const files = walk().filter(relative => relative.startsWith('app/') || relative === 'PRD.html');
+    const files = walk().filter(relative => relative.startsWith('app/') || ['index.html', 'PRD.html'].includes(relative));
     const detail = await httpSmoke(files);
     checks.push({ name: '独立目录 HTTP 预览', status: 'passed', detail });
     console.log('PASS 独立目录 HTTP 预览');

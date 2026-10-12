@@ -1,15 +1,20 @@
 小红书笔试 评里找交付核验
-整理日期：2026-10-11
+整理日期：2026-10-12
 
-1. app/ 与 source-assets/ 共22个文件，已与用户最新确认的原型逐文件 SHA-256 比对，内容完全一致。
-2. 六篇笔记、633条原始评论及回复、七张WebP页面图片、七张原始PNG、Lucide本地图标和许可完整收录。
-3. 用户提供的六张界面参考图片复制到 reference-assets/。原截图仅用于开发参考，最终要求见 AI开发交接.md。
-4. 新目录的63项搜索引擎测试全部通过。包括cm/CM/全角单位、数字/型号边界、父回复上下文与计数。
-5. 已从本文件夹启动独立本地服务，在浏览器查看首页及home详情。六张封面均加载，首页标题400、底栏16px、点赞全数字、正文评论和输入提示13px。home笔记AI搜索cm显示6组讨论/6条相关评论，高亮及父评论上下文正确。
-6. scripts/verify-bundle.cjs 会核对清单SHA-256、页面相对资源、图片、JavaScript语法，并临时启动本目录服务检查app所有文件及PRD.html的HTTP返回字节；临时服务自动结束。
-7. bundle-manifest.json 不收录自身与自动生成的 tests/handoff-results.json。其余交付文件均有哈希和大小。详细机器检查结果见 tests/handoff-results.json。
-8. 页面源码没有改动；为移交新增了README、AI开发交接、启动与核验脚本及文件清单；原始PRD与历史验收文档增加了最新交接入口提示。旧截图不是最新界面标准。
-9. 未打包操作系统Node.js安装包或浏览器，需要Node.js18+和现代浏览器。未导出浏览器私有localStorage操作记录，原始虚构数据全部保留。相关评论仍是本地规则模拟检索。
+本轮范围
+1. 保留原六篇，新增旅游、虚构禾序科技福利与电脑配置三篇笔记；当前共有九篇、957条原始评论及回复，每篇96条根评论。
+2. 页面图片为九张WebP封面加一张WebP头像图集，对应十张原始PNG。Lucide本地图标及许可保留。用户提供的六张界面参考图仍在reference-assets/，不作为页面内容。
+3. 顶部说明栏已删除；搜索框外左侧加入笔记作者头像，框内右侧加入麦克风展示按钮。点击麦克风只显示原型toast，没有录音、权限请求或新后端。
+4. 整体手机框改为76/146.6比例、最大460px；原字号、桌面5px/窄屏4px黑色边线保留。.app内部滚动、搜索替换输入栏及展开不自动滚动等既有行为保留。
+5. 最新对照截图使用screenshots/latest-home.jpg、latest-search-avatar.jpg、latest-travel.jpg、latest-benefits.jpg、latest-computer.jpg。PRD与旧验收材料保留为历史，不能据其恢复旧界面。
+
+核验依据
+6. 本轮已在原实现目录及独立“前端与素材”目录运行检索回归，均82/82通过（原63条加新增19条）。最终交付目录的文件哈希、页面资源、九篇及全部图片、JavaScript语法和独立HTTP检查均通过，详见tests/search-results.json及tests/handoff-results.json。
+7. scripts/verify-bundle.cjs核对bundle-manifest.json中的SHA-256与字节数，并检查页面相对资源、全部笔记图片、JavaScript语法及独立本地静态服务。临时服务会自动结束。
+8. 清单不收录自身与自动生成的tests/handoff-results.json，并跳过.git、node_modules和可选runtime目录。开发后的有意变更应在验证后刷新清单，不能用刷新掩盖缺失素材。
+9. 本次交付已保存到D:\毕业论文\outputs\前端与素材，并从该目录独立执行82项测试与5项完整性核验，全部通过。可将整个交付目录作为静态站点根目录，Node服务仅辅助本地预览。
+10. GitHub仓库：https://github.com/jinx-dot-ff/xhs；预览：https://jinx-dot-ff.github.io/xhs/。GitHub Pages从main分支根目录自动构建。发布核验应确认最新提交的Pages状态为built，并检查线上data.js、styles.css与全部新增图片，不能用旧构建状态替代新版本检查。
+11. 原PRD及旧验收记录不改写。没有打包系统Node.js或浏览器，没有导出个人localStorage记录。相关评论仍为本地规则模拟；所有笔记、公司福利和评论均为虚构演示。
 
 建议给其他AI的指令
-请先阅读README.md和AI开发交接.md，运行现有app，按最新截图及用户最终约束继续开发。保留相对目录和现有素材，不要依据旧PRD恢复已修改的交互。无需重新生成图片或根据文本重写整个页面。
+请先阅读README.md和AI开发交接.md，运行现有app，按latest-截图及最新用户约束继续开发。保留目录结构、全部图片与原始数据，不要依据旧PRD恢复已修改的交互。无需重新生成图片或根据文本重写整个页面。

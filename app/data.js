@@ -302,6 +302,123 @@
         openings: ['看到这个角落很想整理自己的桌面。', '房间小也可以慢慢布置出喜欢的样子。', '日常用的东西留在照片里很有生活感。', '这套浅色和木色搭配看着舒服。', '喜欢这种能真正坐下来用的桌面。', '最近在给自己的房间做减法。'],
         endings: ['先把不用的纸和盒子收走，已经会不一样。', '一盏灯和一本书就能让晚上安静下来。', '我也想给自己留一个固定写字的位置。', '那盆小绿植放得刚刚好，不挡视线。', '生活一点点变顺手，比一次性买齐更开心。', '不需要每个角落都像展示间。', '明天先花十分钟把充电线理一理。', '看到暖色灯光就想关掉工作消息。', '窗边的薄纱让我想起家里的下午。', '有个能放下心的小角落挺重要的。', '先从自己每天最常用的地方改起。', '想把这一点小变化也认真记录下来。']
       }
+    },
+    {
+      id: 'travel', seed: 70, title: '霁川三天两夜｜先选住哪，再决定怎么走', author: '小岛的慢旅行', authorInitial: '岛', authorTone: '#789f9a',
+      category: '出行', cover: 'assets/travel.webp', images: ['assets/travel.webp'],
+      body: [
+        '第一次去霁川，留了三天两夜：第一天下午到站，放下行李后逛河边老街；第二天去青岚湖，傍晚回城吃饭；第三天留给街巷和小店，午后坐车回家。没有把所有景点都塞进去，遇到喜欢的地方可以多坐一会儿。',
+        '我们最后住在老城外沿，走去河边方便，但从车站来回要多留交通时间。老街里热闹、拍照好看，车站附近更适合晚到早走；带老人、行李多或睡眠浅，选择可能会完全不同。订房前我会逐项问电梯、隔音和退改。',
+        '全程没有自驾，用了城内公交、湖区接驳和一段打车。我会给转车和回程多留一点时间，订房前再确认房型和到店方式。欢迎在评论里讨论路线、住宿和交通怎么取舍。本篇为虚构场景。'
+      ], tags: ['三天两夜', '旅行路线', '住宿选择', '公共交通'], publishedAt: '2026-09-09T11:20:00+08:00', location: '霁川 · 河岸老城', likes: 4286, collects: 2671,
+      core: [
+        C('只有三天两夜，老城、青岚湖和山上的观景台都去会不会太赶？第一次来想尽量少绕路。', ['travelRoute'], '三天两夜', 'question', { replies: [R('我只留老城和湖区，观景台另一天再来。到站那天下午慢慢逛，第二天湖边，最后半天留给回程。', ['travelRoute'], { isAuthor: true, focus: '只留老城和湖区' }), R('照这个顺序走过，最后一天没跨城赶景点，回程轻松很多。', ['travelRoute'], { replyToIndex: 0, kind: 'experience' })] }),
+        C('我们第一天就冲湖区，车到得晚，天黑前只走了一小段。晚到还是先留在城里更踏实。', ['travelRoute', 'travelTransit'], '晚到还是先留在城里', 'experience'),
+        C('喜欢空镜的话可以反过来，第二天早一点去湖边。我去的那天上午人少，但这不是每个周末都成立。', ['travelRoute', 'travelCrowd'], '第二天早一点去湖边', 'experience'),
+        C('下雨那天临时取消观景台，在老城喝茶逛书店也过了一下午。别把路线排到完全不能调整。', ['travelRoute', 'travelWeather'], '临时取消观景台', 'experience'),
+        C('住老城还是车站附近比较好？两个人拖行李，晚上想逛街，但第二天还要去湖区。', ['travelStay'], '住老城还是车站附近', 'question', { replies: [R('我选老城外沿，步行到街巷方便，回酒店没那么吵；去车站和湖区要另算通勤。车站一带适合晚到早走。', ['travelStay'], { isAuthor: true, focus: '老城外沿' }), R('我们晚到，住车站附近省了当晚的转车；第二天下午才进老城，接受多跑一趟就可以。', ['travelStay'], { replyToIndex: 0, kind: 'experience', focus: '住车站附近省了当晚的转车' })] }),
+        C('住老街里面，下楼就能吃东西，但我那间窗外有店铺，到晚上还听得到聊天。睡眠浅要先问房间朝向。', ['travelStay'], '晚上还听得到聊天', 'experience'),
+        C('车站旁的房间整洁，拖箱子确实省事。不过每天进老城来回折腾，想一天回房休息几次的人未必合适。', ['travelStay'], '每天进老城来回折腾', 'experience'),
+        C('带爸妈那次住老城外沿，有电梯、车能到门口，比住在石板巷深处舒服。看地图距离近不代表拖箱子好走。', ['travelStay', 'travelAccess'], '有电梯、车能到门口', 'experience'),
+        C('老城里的酒店都有电梯吗？我带大箱子，不想上三楼搬半天。', ['travelStay', 'travelAccess'], '都有电梯吗', 'question', { replies: [R('我们看过的两家小院没有，最后换到外沿那家。要问具体楼栋和房间，不能只看酒店名字。', ['travelStay', 'travelAccess'], { kind: 'experience', focus: '两家小院没有' })] }),
+        C('临出发改日期，原来那间房不能退。后来宁愿少一个景观窗，也把可取消的条件放前面。', ['travelStay', 'travelBooking'], '原来那间房不能退', 'experience'),
+        C('不用自驾怎么走？从车站到老城、再去青岚湖，公共交通能不能串起来？', ['travelTransit'], '不用自驾怎么走', 'question', { replies: [R('我们的做法是车站坐城内公交到老城外沿，湖区那天到集散点换接驳，返程晚了才打车。要先核对当天末班时间。', ['travelTransit'], { isAuthor: true, focus: '到集散点换接驳' }), R('我去的时候接驳排了挺久，没预留换车时间差点错过预约时段。', ['travelTransit'], { replyToIndex: 0, kind: 'experience', focus: '接驳排了挺久' })] }),
+        C('周末公交上带箱子挺挤，我们错开午后那一班才坐上。人多的时候不要把转车计划卡得太紧。', ['travelTransit', 'travelCrowd'], '带箱子挺挤', 'experience'),
+        C('回程高铁在下午，午饭后直接回站，不再去另一侧的景点。最后一天只安排同一片区更稳。', ['travelRoute', 'travelTransit'], '最后一天只安排同一片区', 'experience'),
+        C('带孩子的话租车还是打车？主要担心坐公交换来换去会累。', ['travelTransit', 'travelAccess'], '租车还是打车', 'question', { replies: [R('我们带孩子打车到湖区，但回来不好叫，等得比想象中久。自驾也要考虑停车，不一定每段都更省心。', ['travelTransit', 'travelAccess'], { kind: 'experience', focus: '回来不好叫' })] }),
+        C('那天接驳只到湖区入口，进去还得步行，别把下车点当成最终景点门口。', ['travelTransit', 'travelAccess'], '进去还得步行', 'experience'),
+        C('老城到湖边能骑共享单车吗？看着距离不远，不确定途中有没有能还车的点。', ['travelTransit'], '有没有能还车的点', 'question'),
+        C('两个人想控制花费，应该先省酒店还是减少打车？不想为了赶景点多花一堆钱。', ['travelBudget'], '先省酒店还是减少打车', 'question', { replies: [R('我先缩短跨区路线，再比同一地段的房间。便宜房间如果太远，每天往返也会增加花费，先算整趟。', ['travelBudget', 'travelStay'], { isAuthor: true, focus: '先算整趟' })] }),
+        C('河边餐馆风景好，不过我们点的口味偏重。同行的人吃得清淡，第二顿就换到普通小店了。', ['travelFood'], '口味偏重', 'experience'),
+        C('湖区需要预约吗？当天看天气再决定会不会来不及？', ['travelBooking'], '湖区需要预约吗', 'question', { replies: [R('我们这次提前选了入园时段。取消和改期要看票上的条件，不要默认下雨就能退。', ['travelBooking'], { isAuthor: true, focus: '取消和改期要看票上的条件' })] }),
+        C('周末沿河那条主街人多，绕进旁边巷子反而更好逛。怕拥挤可以少安排最热闹的时间段。', ['travelCrowd', 'travelRoute'], '旁边巷子反而更好逛', 'experience'),
+        C('退房后行李寄存在哪？第三天下午的车，还想空着手再逛一会儿。', ['travelLuggage'], '行李寄存在哪', 'question', { replies: [R('我们放在住过的酒店前台，先问了取回时间和保管方式。车站有没有柜子这次没确认。', ['travelLuggage'], { isAuthor: true, focus: '放在住过的酒店前台' })] }),
+        C('带老人走石板街要慢一点，雨后几处路面滑。我们宁愿少去一家店，也不一路催着走。', ['travelAccess', 'travelWeather'], '雨后几处路面滑', 'experience'),
+        C('有人推轮椅去过湖区吗？从接驳下车到河岸这一段有没有连续无台阶的路？', ['travelAccess', 'travelWheelchair'], '连续无台阶的路', 'question'),
+        C('最喜欢傍晚坐河边那一小时，没拍多少照片。路线空一点，才有时间真的待在一个地方。', ['travelRoute'], '路线空一点', 'opinion')
+      ],
+      ambient: {
+        openings: ['旅行前先读大家怎么安排挺有意思。', '这张河岸的光很舒服。', '看完想给自己留一个慢一点的假期。', '小城的街巷很适合随手记录。', '喜欢这种有空白的周末。', '照片里的远处有一点雾。'],
+        endings: ['出门带一本小本子，回来可以慢慢写。', '和朋友一起看风景就已经很开心。', '不一定每一张都要拍得像明信片。', '坐下来听一会儿水声也很好。', '喜欢把平常的画面认真留下来。', '看到这个颜色就想画一张小速写。', '希望下次出门能少一点赶时间。', '把相册整理好也像再过一次周末。', '先把这张发给最近想放假的朋友。', '普通的小街也有自己的样子。', '我也想试着少看一会儿手机。', '一趟出门有一个喜欢的瞬间就很满足。']
+      }
+    },
+    {
+      id: 'benefits', seed: 79, title: '禾序科技入职三个月｜福利要看细则', author: '下班后的便签', authorInitial: '签', authorTone: '#8b96ad',
+      category: '职场', cover: 'assets/benefits.webp', images: ['assets/benefits.webp'],
+      body: [
+        '在禾序科技入职三个月，最常被朋友问的不是办公室好不好看，而是餐补、休假和加班怎么安排。把自己的体验记在这里：我所在办公室午饭用饭卡，休假通过系统提交，忙的时候需要提前和组内排期。',
+        '福利清单写着有，不代表每个人的领取条件都一样。试用期、入职日期、所在办公室、岗位和直属团队，都会影响实际体验。有人觉得饭卡省事，也有人通勤太远、根本用不到；我更关心这些福利能否在自己需要的时候用上。',
+        '下次面试，我会把关心的条目先列清楚，向负责招聘的人确认领取条件和申请方式，再结合自己的通勤、作息与工作习惯判断。比起福利清单有多长，我更在意自己能不能用得上。禾序科技为虚构公司。'
+      ], tags: ['公司福利', '试用期', '餐补与休假', '入职体验'], publishedAt: '2026-09-12T18:20:00+08:00', location: '栖禾市 · 云杉办公区', likes: 3679, collects: 1942,
+      core: [
+        C('试用期有餐补吗？饭卡是第一天就发，还是转正以后才能用？', ['benefitMeal', 'benefitTrial'], '试用期有餐补吗', 'question', { replies: [R('我在云杉办公室，入职第一周开通饭卡，试用期也能吃午饭。这里是按到岗记录充到卡里，不是发现金。', ['benefitMeal', 'benefitTrial'], { isAuthor: true, focus: '试用期也能吃午饭' }), R('我在另一个办公室，权限晚了几天才开，刚入职那几顿先自费，后来按流程处理了。', ['benefitMeal', 'benefitTrial'], { replyToIndex: 0, kind: 'experience', focus: '权限晚了几天才开' })] }),
+        C('试用期的饭卡能用，但我常在外勤，用不到食堂。我的团队那部分怎么申请要另问，不是人人都有一笔现金餐补。', ['benefitMeal', 'benefitTrial'], '不是人人都有一笔现金餐补', 'experience'),
+        C('饭卡对我挺方便，午饭不用每天纠结点什么。只是可选菜少，我连续吃一周会腻。', ['benefitMeal'], '连续吃一周会腻', 'experience'),
+        C('我们办公室没有食堂，用定点商家。周五提前下班就常常来不及用，福利好不好也和作息有关。', ['benefitMeal'], '没有食堂', 'experience'),
+        C('年假和调休怎么区分？系统里有两个余额，是不是都可以随便换成一整天？', ['benefitLeave', 'benefitOvertime'], '年假和调休怎么区分', 'question', { replies: [R('我这里年假和补休分开显示，年假看个人资格与入职信息，补休要有已确认的加班记录。申请时还要看团队排期。', ['benefitLeave', 'benefitOvertime'], { isAuthor: true, focus: '年假和补休分开显示' }), R('补充我的经历：之前只有提交加班记录，没有主管确认，余额还没增加，确认后才出现。', ['benefitLeave', 'benefitOvertime'], { replyToIndex: 0, kind: 'experience', focus: '主管确认' })] }),
+        C('我想把年假连着周末用，提前两周沟通后通过了。系统有余额只是第一步，还得确认交接和同事的排期。', ['benefitLeave'], '提前两周沟通后通过了', 'experience'),
+        C('我们赶项目时调休连续被改期，后来分成两次才休到。清单上有补休，实际能不能顺利休还要看组内安排。', ['benefitLeave', 'benefitOvertime', 'benefitTeam'], '调休连续被改期', 'experience'),
+        C('月底调休会不会过期？我手上还留着半天，找不到有效期在哪里看。', ['benefitLeave', 'benefitOvertime'], '调休会不会过期', 'question', { replies: [R('我那条记录的详情页有截止日期，不同来源显示不一样。你的余额要点开对应明细，再找人事核对。', ['benefitLeave', 'benefitOvertime'], { kind: 'experience', focus: '详情页有截止日期' })] }),
+        C('试用期能申请请假吗？下个月有家事，怕一说请假就留下不好印象。', ['benefitTrial', 'benefitLeave'], '试用期能申请请假吗', 'question', { replies: [R('我试用期请过一天事假，提前说明安排、做了交接。具体假别和审批条件还是问负责你的团队。', ['benefitTrial', 'benefitLeave'], { kind: 'experience', focus: '试用期请过一天事假' })] }),
+        C('试用期的体检通知到了，但我那次错过预约窗口。后来能不能补约是另一个流程，入职礼包不是拿到就都自动生效。', ['benefitTrial', 'benefitHealth'], '错过预约窗口', 'experience'),
+        C('加班有餐食或打车报销吗？我更在意偶尔赶项目回家的安排。', ['benefitOvertime', 'benefitCommute'], '打车报销吗', 'question', { replies: [R('我的组需要先确认加班安排，满足本办公室的时间和凭证要求后再申请，临时晚走不一定都能报。', ['benefitOvertime', 'benefitCommute'], { isAuthor: true, focus: '临时晚走不一定都能报' }), R('我有一次凭证没留全被退回，补齐才通过。现在会先看申请页面的说明。', ['benefitOvertime', 'benefitCommute'], { replyToIndex: 0, kind: 'experience', focus: '凭证没留全被退回' })] }),
+        C('我在支持团队，最近几周准点下班比较多；朋友在交付组就忙很多。问加班最好具体到团队和阶段。', ['benefitOvertime', 'benefitTeam'], '具体到团队和阶段', 'experience'),
+        C('我们有弹性到岗时间，但不是自己想几点来就几点来，上午有固定协作时间段。', ['benefitFlex', 'benefitTeam'], '有固定协作时间段', 'experience'),
+        C('远程办公是一周固定一天吗？还是遇到特殊情况才临时申请？', ['benefitRemote', 'benefitFlex'], '远程办公', 'question', { replies: [R('我所在岗位能提前申请，现场支持的同事安排不同，不是全公司统一每周一天。', ['benefitRemote', 'benefitFlex'], { isAuthor: true, focus: '不是全公司统一每周一天' })] }),
+        C('外地通勤来回久，食堂和下午茶补不了时间成本。拿到邀请以后，我先走了一遍早晚通勤。', ['benefitCommute'], '先走了一遍早晚通勤', 'experience'),
+        C('有班车吗？住得远，主要想知道早晚路线和错过之后怎么办。', ['benefitCommute'], '有班车吗', 'question', { replies: [R('云杉这边有两条班车路线，但不经过我家附近；错过那班要自己安排。住址和下班时间都要一起看。', ['benefitCommute'], { kind: 'experience', focus: '不经过我家附近' })] }),
+        C('体检项目对我够用，但家人不能直接一起用这个名额。别把员工福利和家属保障当成一件事。', ['benefitHealth'], '家人不能直接一起用', 'experience'),
+        C('补充保障的生效日期在哪里确认？入职时听到了这个词，没看懂个人页面。', ['benefitHealth', 'benefitCoverage'], '生效日期在哪里确认', 'question'),
+        C('新人电脑是统一发还是能按岗位申请？设计软件开得多，怕只给基础配置。', ['benefitEquipment'], '按岗位申请', 'question', { replies: [R('我拿的是办公配置，设计同事另走需求申请。审批周期也要问清，不能默认当天就换好。', ['benefitEquipment'], { isAuthor: true, focus: '另走需求申请' })] }),
+        C('我的显示器先用库存，申请新设备等了两周。有人更快，可能和当时库存有关。', ['benefitEquipment'], '申请新设备等了两周', 'experience'),
+        C('下午茶是固定日期的活动，不是每天都有。大家一起聊十分钟挺开心，但对我来说不如稳定休假有用。', ['benefitPerks', 'benefitLeave'], '不如稳定休假有用', 'opinion'),
+        C('培训预算能报外面的课吗？想学习的内容和当前岗位不完全一样。', ['benefitTraining'], '培训预算', 'question', { replies: [R('我报的是工作相关课程，先交计划再审批。跨领域的还没试过，不能保证都能报。', ['benefitTraining'], { kind: 'experience', focus: '先交计划再审批' })] }),
+        C('部门氛围比我想象中轻松，负责人愿意帮忙安排交接。不过另一组朋友遇到的节奏不同，不能只看公司名字。', ['benefitTeam'], '另一组朋友遇到的节奏不同', 'experience'),
+        C('面试时把领取条件、到账方式和谁来审批问明白，比只问有没有福利更有帮助。最好把自己最关心的三项先列出来。', ['benefitTrial', 'benefitTeam'], '领取条件、到账方式和谁来审批', 'opinion')
+      ],
+      ambient: {
+        openings: ['把入职后的普通一天记下来很有参考意义。', '办公室那束光挺舒服。', '看到这篇想整理一下自己的工作便签。', '每个人在意的地方确实不一样。', '下班后读一会儿这样的记录很放松。', '喜欢你写清楚亲身遇到的细节。'],
+        endings: ['先想清楚自己现在最需要什么。', '不跟着别人一句评价就做决定。', '希望忙的时候也能好好吃饭。', '桌面上的小本子和我的很像。', '和同事能好好说话很珍贵。', '把没确认的事情留在清单里也挺好。', '日常顺手的东西会让心情好一点。', '周末先给自己留一点空白。', '这种具体的记录比照片更耐看。', '想把今天想到的几件事写下来。', '有时一杯热水就能让自己缓下来。', '给准备换环境的朋友发过去看看。']
+      }
+    },
+    {
+      id: 'computer', seed: 88, title: '剪片也打游戏｜电脑配置先排需求', author: '桌面与小零件', authorInitial: '零', authorTone: '#8994a8',
+      category: '数码', cover: 'assets/computer.webp', images: ['assets/computer.webp'],
+      body: [
+        '这次给自己的桌面列了一张配置取舍清单：平时剪短视频、修照片，周末玩游戏，还会同时开浏览器和聊天软件。没有先追着最高规格选，而是把常用软件、素材大小、屏幕需求和能接受的噪声写在同一张纸上。',
+        '最纠结的是32G还是64G内存，以及显卡、电源、散热和机箱要怎样一起选。轻项目和多轨素材的需求不一样；预算有限时也要给硬盘、备份和显示器留位置，不能只把钱堆在一个部件上。',
+        '我还没在同样条件下测过每一种组合，不想只靠一次体验就给所有人定答案。买之前会按具体型号核对接口、尺寸、供电和软件要求，也给以后升级留点空间。欢迎聊聊你最常用的场景。本篇为虚构场景。'
+      ], tags: ['电脑配置', '视频剪辑', '内存选择', '显卡与电源'], publishedAt: '2026-09-14T15:30:00+08:00', location: '栖禾市 · 家中桌面', likes: 5197, collects: 3284,
+      core: [
+        C('剪视频选32G还是64G？平时剪短片，浏览器也经常开很多页，怕装完以后才发现不够。', ['computerMemory', 'computerEditing'], '32G还是64G', 'question', { replies: [R('我平时剪的轻项目先用了32G，多轨素材和同时开多个软件时才更想要64G。先看你常做的项目占用，别只按视频时长判断。', ['computerMemory', 'computerEditing'], { isAuthor: true, focus: '先看你常做的项目占用' }), R('我重特效项目那次更接近64G的需求，普通短片却没用到同样多。也要看素材、软件和后台程序。', ['computerMemory', 'computerEditing'], { replyToIndex: 0, kind: 'experience', focus: '重特效项目' })] }),
+        C('我平时做轻剪辑加修图，32G先够我安排工作；以后项目变复杂，再按实际占用决定，不把这一例当普遍结论。', ['computerMemory', 'computerEditing'], '轻剪辑加修图', 'experience'),
+        C('同时开剪辑、合成和很多页面，我更愿意先留64G的位置。不是说每个人都必须买大内存，只是我的多开习惯比较重。', ['computerMemory', 'computerEditing'], '多开习惯比较重', 'opinion'),
+        C('我以前卡顿就怪内存，后来发现素材盘和软件设置也有影响。加到64G不代表任何卡顿都会消失。', ['computerMemory', 'computerStorage', 'computerEditing'], '不代表任何卡顿都会消失', 'experience'),
+        C('主板有四个槽，先装两条以后再加两条就行吗？怕买了以后混用不稳。', ['computerMemory', 'computerCompatibility'], '以后再加两条', 'question', { replies: [R('我会先看主板说明和兼容清单，容量、代数、频率和套条组合都要核对；多插两条不等于能维持同样设置。', ['computerMemory', 'computerCompatibility'], { isAuthor: true, focus: '多插两条不等于能维持同样设置' })] }),
+        C('显卡和电源怎么搭配？想升级图形性能，又不想买回去才发现接口或功率不合适。', ['computerGpu', 'computerPower'], '显卡和电源怎么搭配', 'question', { replies: [R('先核对具体显卡的供电要求、接口和整机负载，再看电源说明、线材和机箱空间；额定瓦数相同也不能替代这些检查。', ['computerGpu', 'computerPower'], { isAuthor: true, focus: '具体显卡的供电要求、接口和整机负载' }), R('我换显卡时才发现旧电源没有合适的线，最后连电源一起换了。线材要按本机型号核对，别拿别家的线凑。', ['computerGpu', 'computerPower'], { replyToIndex: 0, kind: 'experience', focus: '旧电源没有合适的线' })] }),
+        C('我先给显示器和常玩的游戏定目标，再看显卡。只看显存大小，会漏掉实际游戏、分辨率和软件需求。', ['computerGpu', 'computerDisplay'], '先给显示器和常玩的游戏定目标', 'opinion'),
+        C('同事主要做图形加速的效果，优先显卡；我更多是长时间导出，会先查软件对CPU和编码器的利用。两张清单不该照抄。', ['computerGpu', 'computerCpu', 'computerEditing'], '两张清单不该照抄', 'opinion'),
+        C('电源要留多少余量？只把各部件标出的数字加起来，会不会漏掉负载变化？', ['computerPower'], '电源要留多少余量', 'question', { replies: [R('我会先参考具体部件和电源厂商的说明，再结合整机配置核对。这里没做实测，不能给出对所有机器有效的固定余量。', ['computerPower'], { isAuthor: true, focus: '具体部件和电源厂商的说明' })] }),
+        C('旧电源用了很久，外观看着没问题，我也不会只凭能开机就默认适合新显卡。型号、年限、状态和接口都得检查。', ['computerPower', 'computerUpgrade'], '不只凭能开机', 'opinion'),
+        C('剪辑软件能用独显加速，是不是CPU就可以随便选便宜的？我主要剪多机位。', ['computerCpu', 'computerEditing'], 'CPU就可以随便选', 'question', { replies: [R('我不会只看有没有独显加速，解码、特效和导出可能用到不同部件。先查你那版软件和素材格式的要求。', ['computerCpu', 'computerEditing'], { isAuthor: true, focus: '素材格式的要求' }), R('我换了一种素材格式后体验就不一样，不能把之前项目的结果直接套过去。', ['computerCpu', 'computerEditing'], { replyToIndex: 0, kind: 'experience' })] }),
+        C('我上次剪的项目用代理后更顺，等最终导出再回原素材。比一遇到卡顿就换硬件更适合我目前的预算。', ['computerEditing', 'computerBudget'], '用代理后更顺', 'experience'),
+        C('系统盘和素材盘需要分开吗？想留一个硬盘位以后升级。', ['computerStorage', 'computerUpgrade'], '系统盘和素材盘需要分开吗', 'question', { replies: [R('这次把项目文件单独放，整理和备份更方便；是否影响性能要看实际盘和工作负载。先核对插槽及通道分配。', ['computerStorage', 'computerUpgrade'], { isAuthor: true, focus: '插槽及通道分配' })] }),
+        C('我以前只顾装大盘，没有留备份，后来丢过一次工程。容量够用也得有第二份，备份不等于在同一块盘再复制一遍。', ['computerStorage', 'computerBackup'], '没有留备份', 'experience'),
+        C('小机箱能放大显卡吗？照片里的桌面不大，但不想为了好看牺牲散热。', ['computerCase', 'computerGpu', 'computerCooling'], '小机箱能放大显卡吗', 'question', { replies: [R('要看具体机箱的限长、厚度、线材弯折空间和风道。图片里看着能放，不代表实际装上还能顺利接线。', ['computerCase', 'computerGpu', 'computerCooling'], { isAuthor: true, focus: '线材弯折空间和风道' })] }),
+        C('我换了更紧凑的机箱，桌面空出来了，但风扇声也更容易注意到。占地小和安静对我不是自动一起得到的。', ['computerCase', 'computerCooling'], '风扇声也更容易注意到', 'experience'),
+        C('卧室用机想尽量安静，风冷还是水冷更合适？不追求灯光。', ['computerCooling'], '想尽量安静', 'question', { replies: [R('我这次用风冷，方便自己维护；另一位朋友的小机箱另选散热。先看热负载、兼容高度和噪声记录，再决定方案。', ['computerCooling'], { kind: 'experience', focus: '热负载、兼容高度和噪声记录' })] }),
+        C('我把机箱放桌下后耳边安静些，但不能贴墙挡住进出风，也得留清灰的位置。布局本身也影响使用体验。', ['computerCooling', 'computerCase'], '留清灰的位置', 'experience'),
+        C('预算有限，显示器和主机哪个先升级？修图时总觉得颜色和办公室看的不一样。', ['computerBudget', 'computerDisplay'], '显示器和主机哪个先升级', 'question', { replies: [R('先分清卡顿还是显示差异：后者要看显示器、色彩管理和校准条件。我会把屏幕也放进整套预算，不能只升级主机。', ['computerBudget', 'computerDisplay'], { isAuthor: true, focus: '把屏幕也放进整套预算' })] }),
+        C('玩游戏和修图都要用，我宁愿少一点灯光，把钱留给能每天看到的屏幕。只是我的排序，不适合所有人。', ['computerBudget', 'computerDisplay'], '只是我的排序', 'opinion'),
+        C('旧电脑的硬盘和机箱能复用吗？想一点点换，不想一次重买全部。', ['computerUpgrade', 'computerCompatibility'], '旧电脑的硬盘和机箱能复用吗', 'question', { replies: [R('我复用了数据盘，但先做备份，再核对接口、安装位置和盘的状态。机箱则要重新量新部件空间，别只看外形。', ['computerUpgrade', 'computerCompatibility'], { kind: 'experience', focus: '先做备份' })] }),
+        C('装好第一次点不亮，后来发现线没有接好。验机时我会记录部件型号和接法，排查比凭感觉换件有效。', ['computerAssembly'], '记录部件型号和接法', 'experience'),
+        C('这套清单能直接装某个开源系统吗？主要剪片的软件和外设驱动有没有人都测试过？', ['computerSystem'], '软件和外设驱动', 'question'),
+        C('先把自己每天怎么用写下来，配置讨论才有方向。别人的最高规格很好看，也可能不是自己最需要的那一项。', ['computerBudget'], '每天怎么用', 'opinion')
+      ],
+      ambient: {
+        openings: ['喜欢把桌面日常拍得这么干净。', '小零件摆在一起很有秩序感。', '做清单的过程本身就能想清楚很多事。', '最近也在整理自己的使用习惯。', '这张桌面照片让我想收收线。', '有时候先停下来想一下挺重要。'],
+        endings: ['自己经常用到的地方最值得认真看。', '不急着一次性把所有东西换掉。', '照片里的暖光看着很舒服。', '把桌面腾出一点位置会更想坐下来。', '喜欢看到优点之外的那些小麻烦。', '能说明为什么选择，比列一排数字更好读。', '下次也想把过程慢慢记录下来。', '普通的一天也有很多可以分享的细节。', '先留存这一张，周末再整理自己的清单。', '看完想把今天没做完的事写在纸上。', '不需要每一个角落都塞满东西。', '会发给同样爱折腾桌面的朋友。']
+      }
     }
   ];
 

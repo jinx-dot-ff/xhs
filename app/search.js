@@ -8,13 +8,47 @@
     parents:['爸妈','父母','老人','长辈','带娃','孩子'],stairs:['台阶','爬坡','上坡','路难走','膝盖','轮椅','平路'],distance:['距离','走多久','多远','公里','步行','累','折腾'],rain:['下雨','雨天','湿滑','天气'],
     calls:['通话','开会','会议','麦克风','收音','风噪','电话','听清'],compatibility:['兼容','连接','安卓','电脑','切换','设备'],battery:['续航','电量','充电','几小时','多久没电'],width:['宽度','尺寸','多宽','桌面','90','100'],glare:['反光','眩光','西晒','光线','晒','亮光','屏幕'],setup:['安装','装起来','组装','打孔','墙','承重'],taste:['甜','好吃','口味','咖啡','蛋糕'],environment:['环境','拍照','座位','露台','好看']
   };
+  // New scenarios use their own vocabulary so broad words such as “电脑” or “工作”
+  // cannot change the intent matching of the original six notes.
+  const topicWordsByNote={
+    travel:{
+      travelRoute:['路线','行程','三天','两夜','安排','景点','观景台','先去哪','绕路'],
+      travelStay:['住哪','住宿','酒店','民宿','订房','老城还是','住老城','住车站','车站附近','隔音','睡眠','房间'],
+      travelTransit:['交通','公交','接驳','高铁','转车','自驾','租车','打车','怎么走','没车','没有车','单车'],
+      travelAccess:['老人','爸妈','轮椅','带孩子','带娃','台阶','电梯','箱子','拖行李'],travelWheelchair:['轮椅'],
+      travelWeather:['下雨','雨天','天气','湿滑'],travelCrowd:['人多','排队','拥挤','人少'],
+      travelBooking:['预约','取消','退改','退房费','订票'],travelLuggage:['行李寄存','行李存放','寄存','退房后'],
+      travelBudget:['预算','花费','省钱','控制花费','多少钱'],travelFood:['吃饭','口味','清淡','餐馆','吃什么']
+    },
+    benefits:{
+      benefitMeal:['餐补','食堂','饭卡','午饭','吃饭补贴','餐食'],benefitTrial:['试用期','转正','新人','刚入职','入职福利'],
+      benefitLeave:['年假','调休','补休','休假','请假','事假','假期','有效期'],benefitOvertime:['加班','晚走','赶项目'],
+      benefitCommute:['通勤','打车','班车','路线','外地','住得远'],benefitFlex:['弹性','到岗','作息'],
+      benefitRemote:['远程','居家办公'],benefitHealth:['体检','家属','保障','生效日期'],benefitCoverage:['补充保障','生效日期'],
+      benefitEquipment:['电脑','显示器','设备','配置'],benefitPerks:['下午茶','零食','活动'],
+      benefitTraining:['培训','课程','学习预算'],benefitTeam:['团队','部门','氛围','审批','面试','负责人']
+    },
+    computer:{
+      computerMemory:['内存','32g','64g','套条','插槽','多开'],computerEditing:['剪视频','剪辑','剪片','特效','素材','合成','导出','代理','多机位'],
+      computerGpu:['显卡','显存','独显','图形加速'],computerPower:['电源','供电','瓦数','线材','余量'],
+      computerCpu:['cpu','处理器','编码器','解码'],computerStorage:['硬盘','系统盘','素材盘','数据盘','固态','容量'],
+      computerBackup:['备份','工程丢失','丢工程'],computerCase:['机箱','限长','小机箱','占地'],
+      computerCooling:['散热','风冷','水冷','风扇','安静','噪声','清灰'],computerDisplay:['显示器','屏幕','分辨率','色彩','颜色','校准'],
+      computerBudget:['预算','省钱','多少钱','花费','取舍'],computerUpgrade:['升级','复用','旧电脑','以后再加'],
+      computerCompatibility:['兼容','接口','混用','主板','驱动'],computerAssembly:['装机','组装','验机','点不亮','接线'],
+      computerSystem:['系统','开源','软件支持']
+    }
+  };
   const clarifyByNote={
     cafe:[['能不能带宠物','有人带狗去过吗？'],['停车和排队','周末停车方便吗？'],['安静办公','适合带电脑办公吗？']],
     outfit:[['尺码与裤长','身高160cm应该怎么选码？'],['面料体验','面料洗后会不会变形？'],['日常搭配','通勤穿舒服吗？']],
     study:[['补基础','基础薄弱应该从哪里补？'],['独立做题','看懂答案却自己做不出怎么办？'],['函数专题','函数题怎么练？']],
     trail:[['带爸妈','带爸妈走这条路线会不会太累？'],['台阶和坡度','这条路台阶多吗？'],['雨天出行','下雨还能走吗？']],
     earbuds:[['会议通话','N7开会收音怎么样？'],['设备连接','N7连接电脑稳定吗？'],['实际续航','N7一次能用几小时？']],
-    home:[['桌面尺寸','90cm宽的书桌够用吗？'],['窗边反光','靠窗会不会反光？'],['安装方式','一个人能安装吗？']]
+    home:[['桌面尺寸','90cm宽的书桌够用吗？'],['窗边反光','靠窗会不会反光？'],['安装方式','一个人能安装吗？']],
+    travel:[['路线安排','三天两夜的路线怎么安排？'],['住宿选择','住老城还是车站附近？'],['交通选择','不用自驾怎么走？']],
+    benefits:[['试用期餐补','试用期有餐补吗？'],['休假与调休','年假和调休怎么区分？'],['工作安排','远程办公怎样申请？']],
+    computer:[['剪辑内存','剪视频选32G还是64G？'],['显卡与电源','显卡和电源怎么搭配？'],['安静散热','卧室电脑怎样安排散热？']]
   };
   function flatten(note){
     const docs=[];
@@ -126,7 +160,10 @@
       const date=Date.parse(doc.comment.publishedAt);
       if(!Number.isFinite(date)||Date.parse('2026-10-11T23:59:59+08:00')-date>90*86400000)return null;
     }
-    if(/无麸质|婴儿座椅|充电宝|预约婚礼|行李寄存|儿童游乐区/.test(q)&&!ownText.includes(q))return null;
+    if(/无麸质|婴儿座椅|充电宝|预约婚礼|行李寄存|儿童游乐区/.test(q)&&!(note.id==='travel'&&/行李寄存/.test(q))&&!ownText.includes(q))return null;
+    // Only scoped benefit examples carry evidence about probation. A general meal
+    // or leave experience must not silently answer a probation-specific question.
+    if(note.id==='benefits'&&/试用期/.test(q)&&!chain.some(item=>(item.comment.topics||[]).includes('benefitTrial'))&&!/试用期/.test(text))return null;
     if(/不用打孔|不打孔|免打孔|无需打孔/.test(q)&&!/不用打孔|不打孔|免打孔|无需打孔|没有打孔/.test(text))return null;
     if(/只看|只找|仅看/.test(q)&&/不能|不让|禁止|不接待/.test(q)&&!/[不没无]|禁止/.test(ownText))return null;
     let ownTopics=doc.comment.topics||[];
@@ -146,7 +183,14 @@
     if([...q].length>120)return {...base,status:'invalid',message:'请将问题缩短到120个字以内'};
     if(mode==='keyword'&&parseTokens(q)===null)return {...base,status:'invalid',message:'请补全双引号后再搜索'};
     if(mode==='ai'&&/^(这家|这里|这个|这篇|它)?(怎么样|好不好|靠谱吗|适合我吗|好用吗)[？?。!！]*$/.test(q))return {...base,status:'clarify',matchCount:null,discussionCount:null,clarifications:clarifyByNote[note.id]||[],message:'你更想了解哪方面？'};
-    let topics=Object.entries(topicWords).filter(([,words])=>words.some(word=>q.includes(word))).map(([topic])=>topic);
+    let topics=Object.entries(topicWordsByNote[note.id]||topicWords).filter(([,words])=>words.some(word=>q.includes(word))).map(([topic])=>topic);
+    // Choose the concrete question over broad use cases: “试用期餐补” is a meal
+    // question, “年假和调休” a leave question, and “32G还是64G剪视频” a memory question.
+    if(note.id==='benefits'&&topics.includes('benefitMeal'))topics=['benefitMeal'];
+    else if(note.id==='benefits'&&topics.includes('benefitLeave'))topics=['benefitLeave'];
+    else if(note.id==='benefits'&&topics.includes('benefitCoverage'))topics=['benefitCoverage'];
+    if(note.id==='travel'&&topics.includes('travelWheelchair'))topics=['travelWheelchair'];
+    if(note.id==='computer'&&topics.includes('computerMemory'))topics=topics.filter(topic=>topic!=='computerEditing');
     // A numeric unit in outfit notes can express height; a bare unit cannot.
     if(note.id==='outfit'&&/(?<![a-z0-9.+-])1[3-9]\d\s*(?:cm|厘米)(?![a-z0-9])/.test(q)&&!topics.includes('height'))topics.push('height');
     if(topics.includes('function')||topics.includes('basics'))topics=topics.filter(topic=>topic!=='math');

@@ -1,6 +1,6 @@
 {
   "project": "小红书笔试 评里找",
-  "snapshotDate": "2026-10-11",
+  "snapshotDate": "2026-10-12",
   "algorithm": "SHA-256",
   "excluded": [
     "bundle-manifest.json",
@@ -24,18 +24,18 @@
     },
     {
       "path": "AGENTS.md",
-      "bytes": 1684,
-      "sha256": "c73ca3ba956a7902e3721b2f0bae6a2ff24014b0a93c05d625442c8070d33711"
+      "bytes": 2631,
+      "sha256": "2a5c19ff4cd31a9542583a4380b440ffbc49585a2792b5db683df5a45040141c"
     },
     {
       "path": "AI开发交接.md",
-      "bytes": 27047,
-      "sha256": "381c3fe4b38a324d1ac648cd80c537d995c07044fa3dc0e8963b7c9724a237ba"
+      "bytes": 31620,
+      "sha256": "6cbbcbc3df985e4f2781c807aaef6ae9b3197272408d1192e69a86b568ef2305"
     },
     {
       "path": "ASSET-PROMPTS.md",
-      "bytes": 3836,
-      "sha256": "290095c3ab8085261c0233c7ef2b4472a0267a7e2c8fe2bf2efc2a9fc4e9af8d"
+      "bytes": 7029,
+      "sha256": "848780512f56026fe0dbf7683ac2e6dba99cb8bcaf872fd2a8214323d1dda388"
     },
     {
       "path": "PRD.html",
@@ -49,13 +49,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 5269,
-      "sha256": "f90c9db9d2cb49cfbc4192a88c711f1b02d1688f7945669abca970b3cc1940b7"
+      "bytes": 7218,
+      "sha256": "8b548054b515993855dd303da47e2c06ca72d1cf8f3793db80f889316025cf13"
     },
     {
       "path": "app/app.js",
-      "bytes": 27877,
-      "sha256": "d85316903956aa36887c765c0b34447fca9f040d490efb0a4bbcda991752a409"
+      "bytes": 28168,
+      "sha256": "6893ac3f4fb234f9a51d4e63fe319f866d3e5a817421bced6cde8229a374dd06"
     },
     {
       "path": "app/assets/LICENSE-lucide.txt",
@@ -68,9 +68,19 @@
       "sha256": "14a341c163af9a2496cd44299425083e41724084cd4dd4f73a0233e98ba60f8c"
     },
     {
+      "path": "app/assets/benefits.webp",
+      "bytes": 262824,
+      "sha256": "20e3f109322b9586aaee4b1b023c337c156a1673914c8bd0e8d4dc0455125029"
+    },
+    {
       "path": "app/assets/cafe.webp",
       "bytes": 279272,
       "sha256": "71e4f1cd1e2db8914de790a28f92a2bb4e7b965557c672ea841b57c1c50d29da"
+    },
+    {
+      "path": "app/assets/computer.webp",
+      "bytes": 156362,
+      "sha256": "58d6d144dfc24a1162c2928abe7b7ed7d28d0637cf77d1ccb2912a747926c089"
     },
     {
       "path": "app/assets/earbuds.webp",
@@ -103,29 +113,34 @@
       "sha256": "80dcdbe3227ee77eeb373f0d9b4064491331edb228644d2f8e6f55c29d72c9ea"
     },
     {
+      "path": "app/assets/travel.webp",
+      "bytes": 500906,
+      "sha256": "51e2629bdca80a891b4dac7dd285a16f109bc707db146caa762a057e60b1b2d0"
+    },
+    {
       "path": "app/data.js",
-      "bytes": 52526,
-      "sha256": "cf8202a2641e48fed48819206514959c31d4668f6a58a362f0ee92fecba8c433"
+      "bytes": 82264,
+      "sha256": "ed023cb2531890eb15faba60b0edcb9337e05bbf53a6a9bb454410946d6d069c"
     },
     {
       "path": "app/index.html",
-      "bytes": 2779,
-      "sha256": "1592053e5d6c996687e439cba29dd10fe4c246618da7bcf5558bc0b7ba20573a"
+      "bytes": 2631,
+      "sha256": "e2560e4c6743ef68c767f851eadb4891ed3bbd247e96cb1b3792395316627f27"
     },
     {
       "path": "app/note.html",
-      "bytes": 4071,
-      "sha256": "7e6be0f6edbbc12b15f33680ad7d9f2d34e3c7cb4c37387096471fe40ec0abcf"
+      "bytes": 4082,
+      "sha256": "35a031aa104aea8428aeacb4dd6559470d30b128977948cf8f0e9b29573d5f64"
     },
     {
       "path": "app/search.js",
-      "bytes": 13367,
-      "sha256": "b108ab2a939291aa0cb9c798157d08c74fbe069894092ae47ca45910975717e5"
+      "bytes": 17977,
+      "sha256": "2ca360a7ad716d288e29cb1b7d1b82cd57845d45a16e16df4feec58eb4609955"
     },
     {
       "path": "app/styles.css",
-      "bytes": 20384,
-      "sha256": "31cafb7b3f9e8ff9b3bbbe254575a9995a4524e0c6d1fb7001100515d35fed74"
+      "bytes": 20021,
+      "sha256": "ca87eb013c0378e98462ddf6b6df9b4a384adabd42da520e32b929a93a3eabd7"
     },
     {
       "path": "index.html",
@@ -188,6 +203,11 @@
       "sha256": "d5e864ee89e62f2996e095a36ae306c108adcffa007e539e7a126b860b4308f8"
     },
     {
+      "path": "screenshots/banner-removed-home.jpg",
+      "bytes": 80189,
+      "sha256": "6e9b4ef1f4db5e5b4e5415b57f22b37f802623bef169d28703bab79a946e935f"
+    },
+    {
       "path": "screenshots/cm-search-fixed.jpg",
       "bytes": 47097,
       "sha256": "f803867e63d2eb02fecc7e4b998bc07f4f7ca85a3de7edc5a2d4c5f3c435db4c"
@@ -233,6 +253,31 @@
       "sha256": "836afbb4aecc5e34e8fb52b5293cb8bd34dc4f5e571140d9bddb6b49894a171e"
     },
     {
+      "path": "screenshots/latest-benefits.jpg",
+      "bytes": 52837,
+      "sha256": "2f2a3ec52ee6bad658d27f0c3d15abc1a014472a2d433d9b6053bce21d23f2e5"
+    },
+    {
+      "path": "screenshots/latest-computer.jpg",
+      "bytes": 55992,
+      "sha256": "ce158c09652e59181cc5c09a1288ce07608430990403cb2269584816e62f5895"
+    },
+    {
+      "path": "screenshots/latest-home.jpg",
+      "bytes": 82415,
+      "sha256": "648dfa3c38d96a60bc59e9a4b535ce200e6ba05600757e260e5b5ac58869a2ac"
+    },
+    {
+      "path": "screenshots/latest-search-avatar.jpg",
+      "bytes": 60271,
+      "sha256": "b0ebf04cd3dd880f902592e6f13cf9f7e5ef82caec7c3c92519d7c49d6827395"
+    },
+    {
+      "path": "screenshots/latest-travel.jpg",
+      "bytes": 53846,
+      "sha256": "e54a8e810bfb65d8fd882accc160b2f0f3269c4cc9df59a7d521b3eb33c3e97b"
+    },
+    {
       "path": "screenshots/note.jpg",
       "bytes": 60707,
       "sha256": "521a002437a31575109c5dc5e2b0042037599dfacf90747f0f4e14451cbdcf79"
@@ -269,8 +314,8 @@
     },
     {
       "path": "scripts/verify-bundle.cjs",
-      "bytes": 8840,
-      "sha256": "06184cdaffc692e3b4c6e765084ce08c0412199a4f5b3bf53b95ef4c07c2ef85"
+      "bytes": 9150,
+      "sha256": "ab3baa1cc5a476e0e15edd8e42c2399324da71fa365e3e96313cd1e24c839496"
     },
     {
       "path": "server.cjs",
@@ -283,9 +328,19 @@
       "sha256": "3495575650f993f0b09847474d5d2a613bedda82e8b5b81e0c6ba3d7d17c9f54"
     },
     {
+      "path": "source-assets/benefits.png",
+      "bytes": 2404475,
+      "sha256": "5bf91d4ac40ff29bbdc4edb5930d836ff802f8cfd2099185960067e70d453816"
+    },
+    {
       "path": "source-assets/cafe.png",
       "bytes": 2572999,
       "sha256": "01b9cad255420d02a091e865a3557087dfa360c8b385c00a719ce94503a9ff01"
+    },
+    {
+      "path": "source-assets/computer.png",
+      "bytes": 2048154,
+      "sha256": "b69cb68fc6fb3025cde934a60184dceaad3721b6f8ea001d6bbed7bdc7f1ac6e"
     },
     {
       "path": "source-assets/earbuds.png",
@@ -313,24 +368,29 @@
       "sha256": "24a8fcb9bc66b9c26dcb02cffab0308634f7759108403aaa6e7a1119e3d8f866"
     },
     {
+      "path": "source-assets/travel.png",
+      "bytes": 3361221,
+      "sha256": "7b96f66882e6f12825d9c0b9c5398a020a1cb06d9a788f5358497558b43156d7"
+    },
+    {
       "path": "tests/search-results.json",
-      "bytes": 8109,
-      "sha256": "3e47ad55e1b8dfd0a6e807dcaa96ffc9a3f3230516cbe6bcf62e0691c2262e46"
+      "bytes": 10918,
+      "sha256": "92889a2838a624a3ef5771ea6eade506cc0574e34dc76465055d0bf511da0cbc"
     },
     {
       "path": "tests/search.test.js",
-      "bytes": 23623,
-      "sha256": "5ec4732d4435ad9800194f986c5a9ac77da331340ce8757a083e4e188c9d10ee"
+      "bytes": 32193,
+      "sha256": "ecf994896ca8e758e5071b200cc87b740ecc9501ea173b7c1b6536e2445f9657"
     },
     {
       "path": "交付核验说明.txt",
-      "bytes": 2011,
-      "sha256": "b8b5fe7aba69058325ce9e0fd7eb91bdaa823fb8d77e9512cd3f53edc70cfc2a"
+      "bytes": 2889,
+      "sha256": "5b6fa5673e0d9d047193fc6030c5555a71e77a90ee19511cf1202514a9dde245"
     },
     {
       "path": "使用说明.txt",
-      "bytes": 1169,
-      "sha256": "b17d8a528f8b56b6b7efa88f726f5158cb647b63379a7bce72303e1c8004ac52"
+      "bytes": 2559,
+      "sha256": "65d2b6121df5244be08ce37736d079d3e1542dbb84945985c19d801a14f4e747"
     },
     {
       "path": "原型预览.png",

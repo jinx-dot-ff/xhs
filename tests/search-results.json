@@ -1,8 +1,8 @@
 {
-  "passed": 63,
+  "passed": 82,
   "failed": 0,
   "blocked": 0,
-  "total": 63,
+  "total": 82,
   "storedComments": [
     {
       "id": "cafe",
@@ -33,16 +33,39 @@
       "id": "home",
       "title": "给小房间留一张书桌，100cm也能好好坐下",
       "count": 105
+    },
+    {
+      "id": "travel",
+      "title": "霁川三天两夜｜先选住哪，再决定怎么走",
+      "count": 107
+    },
+    {
+      "id": "benefits",
+      "title": "禾序科技入职三个月｜福利要看细则",
+      "count": 108
+    },
+    {
+      "id": "computer",
+      "title": "剪片也打游戏｜电脑配置先排需求",
+      "count": 109
     }
   ],
   "adapterNote": "semantic-to-ai mapping is tested at the contract boundary; this does not claim a production adapter or live model exists.",
   "results": [
     {
-      "name": "data: six fictional scenarios and complete comment counts",
+      "name": "data: nine fictional scenarios and complete comment counts",
       "status": "passed"
     },
     {
       "name": "data: every stored comment has a unique ID",
+      "status": "passed"
+    },
+    {
+      "name": "data: reply references stay within their original discussion",
+      "status": "passed"
+    },
+    {
+      "name": "data: new notes keep complete routes, welfare and configuration discussions",
       "status": "passed"
     },
     {
@@ -287,6 +310,74 @@
     },
     {
       "name": "AI: explicit outfit heights preserve intent recall without a literal unit",
+      "status": "passed"
+    },
+    {
+      "name": "travel: old town versus station retains both quiet and convenient stays",
+      "status": "passed"
+    },
+    {
+      "name": "travel: a trip without driving includes transfers and their limitations",
+      "status": "passed"
+    },
+    {
+      "name": "travel: itinerary search preserves alternatives and weather changes",
+      "status": "passed"
+    },
+    {
+      "name": "travel: luggage intent can find a hotel-front-desk answer without exact wording",
+      "status": "passed"
+    },
+    {
+      "name": "travel: a keyword reply hit keeps the question and counts only the reply",
+      "status": "passed"
+    },
+    {
+      "name": "travel: an unanswered wheelchair question does not borrow elderly-walking answers",
+      "status": "passed"
+    },
+    {
+      "name": "benefits: probation meal search excludes general cafeteria-only experience",
+      "status": "passed"
+    },
+    {
+      "name": "benefits: annual leave and comp time include approval and delayed leave",
+      "status": "passed"
+    },
+    {
+      "name": "benefits: probation leave requires an actual probation discussion",
+      "status": "passed"
+    },
+    {
+      "name": "benefits: remote-work search retains role-dependent conditions",
+      "status": "passed"
+    },
+    {
+      "name": "benefits: an unresolved coverage-start date does not borrow checkup evidence",
+      "status": "passed"
+    },
+    {
+      "name": "computer: memory comparison keeps both light and heavy editing examples",
+      "status": "passed"
+    },
+    {
+      "name": "computer: GPU and power search retains connector and upgrade caveats",
+      "status": "passed"
+    },
+    {
+      "name": "computer: memory keywords remain literal rather than semantic alternatives",
+      "status": "passed"
+    },
+    {
+      "name": "computer: an untested operating system is not answered by hardware compatibility",
+      "status": "passed"
+    },
+    {
+      "name": "new scenarios: vague intent gives useful clarification choices that can be searched",
+      "status": "passed"
+    },
+    {
+      "name": "new scenarios: scoped intent does not alter original-note semantic results",
       "status": "passed"
     }
   ]
