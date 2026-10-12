@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-12",
+  "method": "正常浏览器交互与只读DOM观察；非引擎测试替代",
+  "checks": [
+    { "name": "原位向左展开", "status": "passed", "detail": "942×871视口，真实点击右侧图标前后.app.scrollTop均为957.333；动画中灰色胶囊left约245px、width约80px，完成后left=0、width约293px，字号14px不变。" },
+    { "name": "快速取消后重新展开", "status": "passed", "detail": "连续点击取消与右侧入口，过渡反向后继续展开；旧收尾未隐藏重新打开的搜索区；完成后旧入口hidden、inert，搜索区可编辑。" },
+    { "name": "输入与切模式", "status": "passed", "detail": "填写查询、提交、切换包含关键词、Escape关闭；返回搜索结果后模式与查询保留，输入/模式更新不重播展开。" },
+    { "name": "查看原讨论与返回结果", "status": "passed", "detail": "从电脑查询结果查看原讨论，搜索区收回；返回搜索结果恢复展开状态。" },
+    { "name": "自己头像覆盖", "status": "passed", "detail": "咖啡、旅游、福利、电脑的评论/搜索入口均使用self-avatar.jpg；发布自己评论及回复后、刷新后仍使用该图；笔记作者继续使用avatars.webp。测试本地内容未写入源码或线上站点。" },
+    { "name": "三个新增场景检索", "status": "passed", "detail": "住老城还是车站=7组/10条；试用期有餐补吗=2组/4条；剪视频选32G还是64G=5组/8条；显卡和电源怎么搭配=6组/10条。" },
+    { "name": "320px窄屏", "status": "passed", "detail": ".app宽度与scrollWidth均为296px，无横向溢出；头像32px、输入14px，麦克风与取消按钮保持可见。测试后恢复默认窗口。" },
+    { "name": "减少动态效果", "status": "code-reviewed", "detail": "CSS减少动效规则与JS立即收尾分支已审查，包括动态改变偏好时清理旧定时器；未修改用户系统偏好进行实测。" },
+    { "name": "浏览器控制台", "status": "passed", "detail": "干净电脑预览页面未记录error或warn。" }
+  ]
+}

@@ -132,7 +132,9 @@ async function httpSmoke(files) {
       ensure(fs.existsSync(path.join(root, 'source-assets', name + '.png')), '缺少原图：' + name);
       ensure(fs.existsSync(path.join(root, 'app/assets', name + '.webp')), '缺少页面素材：' + name);
     }
-    return { notes: notes.length, comments, originalImages: 10, webpImages: 10 };
+    const suppliedAvatar=fs.readFileSync(path.join(root,'source-assets/self-avatar.jpg'));
+    ensure(suppliedAvatar.equals(fs.readFileSync(path.join(root,'app/assets/self-avatar.jpg'))), '自己头像与用户原图副本不同');
+    return { notes: notes.length, comments, originalImages: 10, webpImages: 10, userAvatarImages: 1 };
   });
   record('JavaScript 语法', () => {
     const files = walk().filter(relative => /\.(?:js|cjs)$/.test(relative));

@@ -7,11 +7,12 @@
   const icon=name=>`<i data-lucide="${name}" aria-hidden="true"></i>`;
   const format=value=>value>=10000?(value/10000).toFixed(1).replace(/\.0$/,'')+'万':value>=1000?(value/1000).toFixed(1)+'千':String(value);
   const memory=new Map();
-  const motion=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth';
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motion=reducedMotion.matches?'instant':'smooth';
   const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem('plz:'+key))??fallback;}catch{return memory.get(key)??fallback;}};
   const write=(key,value)=>{memory.set(key,value);try{localStorage.setItem('plz:'+key,JSON.stringify(value));}catch{}};
   const hash=value=>Array.from(String(value)).reduce((sum,char)=>sum+char.codePointAt(0),0);
-  const avatar=(name,small=false)=>{const n=hash(name)%12;return `<span class="avatar ${small?'small':''}" style="--avatar-position:${(n%4)*100/3}% ${Math.floor(n/4)*50}%" aria-hidden="true">${esc(name[0])}</span>`;};
+  const avatar=(name,small=false)=>{if(name==='我的小日常')return `<span class="avatar self-avatar ${small?'small':''}" aria-hidden="true"></span>`;const n=hash(name)%12;return `<span class="avatar ${small?'small':''}" style="--avatar-position:${(n%4)*100/3}% ${Math.floor(n/4)*50}%" aria-hidden="true">${esc(name[0])}</span>`;};
   const icons=()=>window.lucide?.createIcons({attrs:{'stroke-width':1.7}});
   let toastTimer,lastFocus;
   function toast(text){const node=document.getElementById('toast');node.textContent=text;node.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.hidden=true,2200);}
@@ -68,10 +69,42 @@
     const searchBox=document.getElementById('comment-search');
     const searchEntry=document.getElementById('search-entry');
     const inlineCommentEntry=document.getElementById('inline-comment-entry');
+    const entryShell=document.getElementById('comment-entry-shell');
+    const querySurface=searchBox.querySelector('.query-surface');
+    const queryInput=searchBox.querySelector('.query-input');
+    const querySubmit=searchBox.querySelector('.query-submit');
+    let uiOpen=false,entryTimer,entryToken=0;
+    // Keep one row in place; only opening/closing changes the motion state.
+    // CSS transitions reverse from their current position when rapidly toggled.
+    function syncSearchUI(open){
+      searchEntry.setAttribute('aria-expanded',String(open));
+      if(uiOpen===open)return;
+      uiOpen=open;clearTimeout(entryTimer);const token=++entryToken;
+      inlineCommentEntry.hidden=false;searchBox.hidden=false;
+      inlineCommentEntry.inert=open;searchBox.inert=!open;
+      inlineCommentEntry.setAttribute('aria-hidden',String(open));
+      searchBox.setAttribute('aria-hidden',String(!open));
+      const inlineStyle=getComputedStyle(inlineCommentEntry);
+      const closedHeight=inlineCommentEntry.offsetHeight+parseFloat(inlineStyle.marginTop)+parseFloat(inlineStyle.marginBottom);
+      if(!entryShell.style.height)entryShell.style.height=closedHeight+'px';
+      const source=searchEntry.getBoundingClientRect(),field=queryInput.getBoundingClientRect();
+      const center=source.left+source.width/2;
+      entryShell.style.setProperty('--search-origin',(center-field.left-18)+'px');
+      entryShell.style.setProperty('--search-icon-shift',(center-field.left-querySubmit.offsetLeft-querySubmit.offsetWidth/2)+'px');
+      const duration=open?360:280;
+      entryShell.style.setProperty('--search-duration',duration+'ms');
+      // Flush the initial collapsed geometry before revealing a previously hidden row.
+      void querySurface.offsetWidth;
+      entryShell.classList.toggle('search-open',open);
+      entryShell.style.height=(open?searchBox.offsetHeight+1:closedHeight)+'px';
+      const finish=()=>{if(token!==entryToken)return;inlineCommentEntry.hidden=uiOpen;searchBox.hidden=!uiOpen;};
+      if(reducedMotion.matches)finish();else entryTimer=setTimeout(finish,duration+40);
+    }
+    reducedMotion.addEventListener('change',event=>{if(event.matches){clearTimeout(entryTimer);inlineCommentEntry.hidden=uiOpen;searchBox.hidden=!uiOpen;}});
     const stateNode=document.getElementById('search-state');
     const list=document.getElementById('comment-list');
     document.getElementById('comment-self-avatar').innerHTML=avatar('我的小日常');
-    document.getElementById('search-author-avatar').innerHTML=avatar(note.author);
+    document.getElementById('search-author-avatar').innerHTML=avatar('我的小日常');
     const flat=()=>engine.flatten(note);
     const count=()=>flat().length;
     const date=note.publishedAt.slice(5,10).replace('-','-');
@@ -103,7 +136,7 @@
     function resultThread(group){const all=state.allResultReplies.has(group.rootId);const docs=all?flat().filter(doc=>doc.rootId===group.rootId):group.items;const matches=new Map(group.matches.map(match=>[match.comment.id,match]));const rootDoc=docs.find(doc=>doc.isRoot);const replies=docs.filter(doc=>!doc.isRoot);return `<article class="result-card" data-root="${esc(group.rootId)}">${row(rootDoc.comment,matches.get(rootDoc.comment.id),!matches.has(rootDoc.comment.id))}${replies.length?`<div class="reply-list">${replies.map(doc=>row(doc.comment,matches.get(doc.comment.id),!matches.has(doc.comment.id))).join('')}</div>`:''}<div class="result-footer"><button data-original="${esc(group.rootId)}">查看原讨论</button>${all?`<button data-all-replies="${esc(group.rootId)}">收起其他回复</button>`:group.root.replies.length>replies.length?`<button data-all-replies="${esc(group.rootId)}">展开全部 ${group.root.replies.length} 条回复</button>`:''}</div></article>`;}
     function originals(){list.innerHTML=note.comments.slice(0,state.limit).map(originalThread).join('')+(note.comments.length>state.limit?'<button class="more-comments" data-action="more-comments">查看更多评论</button>':'<div class="more-comments">没有更多评论了</div>');}
     function render(){
-      searchBox.hidden=!state.open;inlineCommentEntry.hidden=state.open;searchEntry.setAttribute('aria-expanded',String(state.open));
+      syncSearchUI(state.open);
       document.getElementById('comments-section').classList.toggle('search-active',state.open);
       document.querySelector('[data-action="clear-query"]').hidden=!state.query;
       document.querySelector('[data-action="search"]').disabled=!state.query.trim();
@@ -161,10 +194,10 @@
       if(button.dataset.reply){const doc=flat().find(item=>item.comment.id===button.dataset.reply);compose(doc?'回复 @'+doc.comment.author+'：':'',button.dataset.reply);return;}
       if(button.dataset.original){const rootId=button.dataset.original;state.returnSnapshot={response:state.response,query:state.query,mode:state.mode,phase:state.phase,resultLimit:state.resultLimit,scroll:appViewport.scrollTop};state.open=false;state.focused=rootId;state.expanded.add(rootId);state.limit=Math.max(state.limit,note.comments.findIndex(comment=>comment.id===rootId)+1);render();document.getElementById('thread-'+rootId)?.scrollIntoView({behavior:motion,block:'start'});return;}
       switch(button.dataset.action){
-        case 'open-search':if(state.open){exitSearch();}else{state.beforeSearchY=appViewport.scrollTop;state.open=true;state.phase='idle';state.returnSnapshot=null;render();query.focus({preventScroll:true});}break;
+        case 'open-search':if(state.open){exitSearch();}else{state.beforeSearchY=appViewport.scrollTop;state.open=true;state.phase='idle';state.returnSnapshot=null;render();query.focus({preventScroll:true});appViewport.scrollTo({top:state.beforeSearchY,behavior:'instant'});}break;
         case 'search':case 'retry-search':search();break;
         case 'voice-search':toast('语音输入为原型展示，请输入文字搜索');break;
-        case 'clear-query':state.serial++;state.query='';query.value='';state.phase='idle';state.response=null;render();query.focus();break;
+        case 'clear-query':state.serial++;state.query='';query.value='';state.phase='idle';state.response=null;render();query.focus({preventScroll:true});break;
         case 'exit-search':exitSearch();break;
         case 'return-results':{const snapshot=state.returnSnapshot;if(!snapshot)break;Object.assign(state,snapshot,{open:true,returnSnapshot:null,focused:null});query.value=state.query;render();appViewport.scrollTo({top:snapshot.scroll,behavior:motion});break;}
         case 'more-comments':state.limit+=12;render();break;
@@ -186,7 +219,7 @@
   document.addEventListener('click',event=>{
     const button=event.target.closest('button');if(!button)return;
     if(button.dataset.action==='close-sheet')closeSheet();
-    if(button.dataset.action==='about')sheet('评里找', '<p>所有封面、人物、笔记和评论均为虚构。你可以从首页打开不同场景的笔记，在评论区输入关键词，或用一句话寻找相关讨论。</p><p>相关评论使用演示检索；所有点赞、收藏和发布只影响本原型。</p>','<button class="secondary" data-action="reset-demo">重置原型体验</button>');
+    if(button.dataset.action==='about')sheet('评里找', '<p>笔记、评论和封面均为虚构演示内容，自己的头像使用提供的图片。你可以从首页打开不同场景的笔记，在评论区输入关键词，或用一句话寻找相关讨论。</p><p>相关评论使用演示检索；所有点赞、收藏和发布只影响本原型。</p>','<button class="secondary" data-action="reset-demo">重置原型体验</button>');
     if(button.dataset.action==='reset-demo')sheet('重置原型体验','<p>清空这个原型里的点赞、收藏、关注、搜索记录和本地评论，恢复初始内容。</p>','<button class="primary" data-action="confirm-reset">确认重置</button>');
     if(button.dataset.action==='confirm-reset'){memory.clear();try{for(const key of Object.keys(localStorage)){if(key.startsWith('plz:'))localStorage.removeItem(key);}}catch{}location.href='index.html';}
     if(button.dataset.action==='unavailable')toast('本原型展示首页和笔记详情');

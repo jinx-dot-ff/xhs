@@ -7,14 +7,14 @@
       "name": "文件清单与 SHA-256",
       "status": "passed",
       "detail": {
-        "files": 84
+        "files": 87
       }
     },
     {
       "name": "页面相对资源",
       "status": "passed",
       "detail": {
-        "references": 13
+        "references": 14
       }
     },
     {
@@ -24,7 +24,8 @@
         "notes": 9,
         "comments": 957,
         "originalImages": 10,
-        "webpImages": 10
+        "webpImages": 10,
+        "userAvatarImages": 1
       }
     },
     {
@@ -38,7 +39,7 @@
       "name": "独立目录 HTTP 预览",
       "status": "passed",
       "detail": {
-        "servedFiles": 20,
+        "servedFiles": 21,
         "rootRoute": "passed",
         "noteRoute": "passed"
       }

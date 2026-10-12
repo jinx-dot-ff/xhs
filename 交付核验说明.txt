@@ -3,18 +3,25 @@
 
 本轮范围
 1. 保留原六篇，新增旅游、虚构禾序科技福利与电脑配置三篇笔记；当前共有九篇、957条原始评论及回复，每篇96条根评论。
-2. 页面图片为九张WebP封面加一张WebP头像图集，对应十张原始PNG。Lucide本地图标及许可保留。用户提供的六张界面参考图仍在reference-assets/，不作为页面内容。
-3. 顶部说明栏已删除；搜索框外左侧加入笔记作者头像，框内右侧加入麦克风展示按钮。点击麦克风只显示原型toast，没有录音、权限请求或新后端。
-4. 整体手机框改为76/146.6比例、最大460px；原字号、桌面5px/窄屏4px黑色边线保留。.app内部滚动、搜索替换输入栏及展开不自动滚动等既有行为保留。
-5. 最新对照截图使用screenshots/latest-home.jpg、latest-search-avatar.jpg、latest-travel.jpg、latest-benefits.jpg、latest-computer.jpg。PRD与旧验收材料保留为历史，不能据其恢复旧界面。
+2. 页面图片保留九张WebP封面加一张WebP头像图集，对应十张原始PNG；新增用户指定自己的头像JPG，原样复制为app/assets/self-avatar.jpg与source-assets/self-avatar.jpg，不属于AI生成素材。Lucide本地图标及许可保留。用户提供的六张界面参考图仍在reference-assets/，不作为页面内容。
+3. 顶部说明栏已删除；评论输入入口与搜索框外左侧统一显示固定的自己头像，自己的所有本地评论及回复也使用该JPG，笔记作者和其他评论者继续使用原图集。框内右侧保留麦克风展示按钮，点击只显示原型toast，没有录音、权限请求或新后端。
+4. 整体手机框改为76/146.6比例、最大460px；原字号、桌面5px/窄屏4px黑色边线保留。.app内部滚动、搜索替换输入栏及展开不自动滚动等既有行为保留。本轮搜索以右侧图标为起点向左展开约360ms，取消反向收回约280ms；输入、切模式和结果渲染不重播，减少动效时直接切换。参数为本原型实现；设计参考Apple官方WWDC26 https://developer.apple.com/videos/play/wwdc2026/292/ 及HIG Motion https://developer.apple.com/design/human-interface-guidelines/motion。
+5. 最新对照截图使用screenshots/latest-home.jpg、latest-search-avatar.jpg、latest-travel.jpg、latest-benefits.jpg、latest-computer.jpg，其中latest-search-avatar.jpg应展示本轮固定自己头像及搜索完成状态。PRD与旧验收材料保留为历史，不能据其恢复旧界面；静态截图不替代展开、收回及连续开关验收。
 
 核验依据
-6. 本轮已在原实现目录及独立“前端与素材”目录运行检索回归，均82/82通过（原63条加新增19条）。最终交付目录的文件哈希、页面资源、九篇及全部图片、JavaScript语法和独立HTTP检查均通过，详见tests/search-results.json及tests/handoff-results.json。
+6. 前一轮九篇笔记扩展已在原实现目录及独立“前端与素材”目录运行检索回归，均82/82通过（原63条加新增19条），当轮文件哈希、页面资源、九篇及全部图片、JavaScript语法和独立HTTP检查均通过。这是历史验证；本轮头像与动效修改后应重新执行检索和交付核验，并通过浏览器检查原位展开、收回、连续开关、输入及模式状态、旧搜索响应隔离、自己评论头像和减少动效。最新实际结果以tests/search-results.json、tests/handoff-results.json及本说明中的本轮完成记录为准。
 7. scripts/verify-bundle.cjs核对bundle-manifest.json中的SHA-256与字节数，并检查页面相对资源、全部笔记图片、JavaScript语法及独立本地静态服务。临时服务会自动结束。
 8. 清单不收录自身与自动生成的tests/handoff-results.json，并跳过.git、node_modules和可选runtime目录。开发后的有意变更应在验证后刷新清单，不能用刷新掩盖缺失素材。
-9. 本次交付已保存到D:\毕业论文\outputs\前端与素材，并从该目录独立执行82项测试与5项完整性核验，全部通过。可将整个交付目录作为静态站点根目录，Node服务仅辅助本地预览。
+9. 交付保存位置为D:\毕业论文\outputs\前端与素材，压缩包同步为同级“前端与素材.zip”。本轮修改、最新截图、测试及本说明更新后再刷新清单和打包，并检查压缩包包含两份self-avatar.jpg及最新前端文件。可将整个交付目录作为静态站点根目录，Node服务仅辅助本地预览；前一轮通过不代表本轮已完成验证或上线。
 10. GitHub仓库：https://github.com/jinx-dot-ff/xhs；预览：https://jinx-dot-ff.github.io/xhs/。GitHub Pages从main分支根目录自动构建。发布核验应确认最新提交的Pages状态为built，并检查线上data.js、styles.css与全部新增图片，不能用旧构建状态替代新版本检查。
 11. 原PRD及旧验收记录不改写。没有打包系统Node.js或浏览器，没有导出个人localStorage记录。相关评论仍为本地规则模拟；所有笔记、公司福利和评论均为虚构演示。
 
 建议给其他AI的指令
 请先阅读README.md和AI开发交接.md，运行现有app，按latest-截图及最新用户约束继续开发。保留目录结构、全部图片与原始数据，不要依据旧PRD恢复已修改的交互。无需重新生成图片或根据文本重写整个页面。
+本轮完成记录（自己头像与搜索动效）
+- 2026-10-12检索回归重新执行，82/82通过，0失败、0阻塞。
+- 正常浏览器核验右侧起点向左展开、取消反向收回、快速取消再打开、输入及模式更新、Escape、原讨论往返、自己评论及回复的新头像和刷新持久化；详细观察见tests/ui-results.json。
+- 在942×871视口，真实点击搜索图标前后内部scrollTop均为957.333；胶囊从右侧约80px宽过渡至293px宽，文字不缩放。在320px视口.app的宽度与scrollWidth均为296px，没有横向溢出。减少动效分支经过代码审查，未修改系统偏好进行实测。
+- latest-search-avatar.jpg、latest-travel.jpg、latest-benefits.jpg、latest-computer.jpg已替换为本轮截图；电脑截图使用干净预览环境，仍为109条原始评论。浏览器测试评论只存在本地测试环境，没有导出到交付文件。
+- 用户提供的953×953 JPG按原始字节复制，页面与source-assets副本一致；原十张AI PNG与十张WebP仍完整保存。
+- 当前文件完整性、相对资源、图片及九篇数据、脚本语法和独立HTTP核验以tests/handoff-results.json为准；压缩包逐文件字节及SHA-256核验，目录与Git仓库同步使用同一份文件。
